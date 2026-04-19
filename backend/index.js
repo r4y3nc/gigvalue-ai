@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const corsMiddleware = require('./src/middlewares/corsMiddleware');
+const errorHandler = require('./src/middlewares/errorHandler');
 const routes = require('./src/routes/index');
 
 dotenv.config();
@@ -19,6 +20,9 @@ app.use('/api', routes);
 app.get('/', (req, res) => {
   res.json({ message: 'GigValue AI Backend is running' });
 });
+
+// Error handler
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
