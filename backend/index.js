@@ -1,10 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
+dotenv.config();
+
 const corsMiddleware = require('./src/middlewares/corsMiddleware');
 const errorHandler = require('./src/middlewares/errorHandler');
 const routes = require('./src/routes/index');
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
