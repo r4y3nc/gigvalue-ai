@@ -5,8 +5,9 @@ const healthController = require('../controllers/healthController');
 const skillsController = require('../controllers/skillsController');
 const predictionValidator = require('../middlewares/predictionValidator');
 const validateRequest = require('../middlewares/validateRequest');
+const { predictLimiter } = require('../middlewares/rateLimiter');
 
-router.post('/predict', predictionValidator,validateRequest, predictionController.predict);
+router.post('/predict', predictLimiter, predictionValidator,validateRequest, predictionController.predict);
 router.get('/predictions', predictionController.getHistory);
 router.get('/health', healthController.healthCheck);
 router.get('/skills', skillsController.getSkills);

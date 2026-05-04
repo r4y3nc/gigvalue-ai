@@ -4,6 +4,7 @@ dotenv.config();
 
 const corsMiddleware = require('./src/middlewares/corsMiddleware');
 const errorHandler = require('./src/middlewares/errorHandler');
+const { globalLimiter } = require('./src/middlewares/rateLimiter');
 const routes = require('./src/routes/index');
 
 const app = express();
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(corsMiddleware);
 app.use(express.json());
+app.use(globalLimiter);
 
 // Routes
 app.use('/api', routes);
