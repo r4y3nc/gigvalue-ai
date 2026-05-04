@@ -4,11 +4,14 @@ const supabase = require('../services/supabaseClient');
 const predict = async (req, res, next) => {
   try {
     const { job_title, description, skills } = req.body;
+    const user_id = req.user.id;
+
     const result = await mlService.getPrediction({ job_title, description, skills });
 
     const { error } = await supabase
       .from('predictions')
       .insert({
+        user_id,
         job_title,
         description,
         skills,
@@ -28,9 +31,12 @@ const predict = async (req, res, next) => {
 
 const getHistory = async (req, res, next) => {
   try {
+    const user_id = req.user.id;
+
     const { data, error } = await supabase
       .from('predictions')
       .select('*')
+      .eq('user_id', user_id)
       .order('created_at', { ascending: false })
       .limit(10);
 
