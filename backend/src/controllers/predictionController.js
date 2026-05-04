@@ -3,13 +3,15 @@ const supabase = require('../services/supabaseClient');
 
 const predict = async (req, res, next) => {
   try {
-    const profileData = req.body;
-    const result = await mlService.getPrediction(profileData);
+    const { job_title, description, skills } = req.body;
+    const result = await mlService.getPrediction({ job_title, description, skills });
 
     const { error } = await supabase
       .from('predictions')
       .insert({
-        description: profileData.description,
+        job_title,
+        description,
+        skills,
         predicted_rate: result.predicted_rate,
       });
 
@@ -18,7 +20,7 @@ const predict = async (req, res, next) => {
     res.json({ success: true, data: result });
   } catch (error) {
     if (error.code === 'ECONNREFUSED') {
-        error.message = 'ML service is not available. Please try again later.';
+      error.message = 'ML service is not available. Please try again later.';
     }
     next(error);
   }
