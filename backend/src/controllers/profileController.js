@@ -21,13 +21,12 @@ const getProfile = async (req, res, next) => {
 const saveProfile = async (req, res, next) => {
   try {
     const user_id = req.user.id;
-    const { job_title, description, skills } = req.body;
+    const { description, skills } = req.body;
 
     const { data, error } = await supabase
       .from('user_profiles')
       .upsert({
         id: user_id,
-        job_title,
         description,
         skills,
         updated_at: new Date().toISOString(),

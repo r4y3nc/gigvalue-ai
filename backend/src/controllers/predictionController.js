@@ -1,20 +1,37 @@
 const mlService = require('../services/mlService');
 const supabase = require('../services/supabaseClient');
+const { transformDescription } = require('../services/geminiService');
 
 const predict = async (req, res, next) => {
   try {
-    const { job_title, description, skills } = req.body;
+    const { category, skills, experience_level, description } = req.body;
     const user_id = req.user.id;
 
-    const result = await mlService.getPrediction({ job_title, description, skills });
+    // Transform description via Gemini
+    const transformed_description = await transformDescription(
+      description,
+      category,
+      skills
+    );
 
+    // Kirim ke FastAPI
+    const result = await mlService.getPrediction({
+      category,
+      skills,
+      experience_level,
+      description: transformed_description,
+    });
+
+    // Simpan ke Supabase
     const { error } = await supabase
       .from('predictions')
       .insert({
         user_id,
-        job_title,
-        description,
+        category,
         skills,
+        experience_level,
+        description,
+        transformed_description,
         predicted_rate: result.predicted_rate,
       });
 
