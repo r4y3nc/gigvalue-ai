@@ -3,7 +3,6 @@ import { supabase } from './services/supabaseClient';
 import { getProfile } from './services/api';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import History from './pages/History';
 import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import Profile from './pages/Profile';
@@ -63,7 +62,6 @@ const App = () => {
 
   const renderPage = () => {
     switch (path) {
-      case '/history': return <History session={session} />;
       case '/profile': return <Profile session={session} />;
       default: return <Home session={session} />;
     }
