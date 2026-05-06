@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getProfile, getCategories, getExperienceLevels, predictRate } from '../services/api';
+import { getProfile, getCategories, predictRate } from '../services/api';
 
 const QUICK_CATEGORIES = [
   'Front End Developer',
@@ -10,7 +10,6 @@ const QUICK_CATEGORIES = [
 
 const Home = ({ session }) => {
   const [categories, setCategories] = useState([]);
-  const [experienceLevels, setExperienceLevels] = useState([]);
   const [category, setCategory] = useState('');
   const [experienceLevel, setExperienceLevel] = useState('');
   const [description, setDescription] = useState('');
@@ -22,19 +21,18 @@ const Home = ({ session }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const [profileRes, categoriesRes, experienceLevelsRes] = await Promise.all([
+      const [profileRes, categoriesRes] = await Promise.all([
         getProfile(session.access_token),
         getCategories(),
-        getExperienceLevels(),
       ]);
 
       const profileData = profileRes.data;
       setCategories(categoriesRes.data.categories);
-      setExperienceLevels(experienceLevelsRes.data.experienceLevels);
 
       if (profileData) {
         setDescription(profileData.description || '');
         setSkills(profileData.skills || []);
+        setExperienceLevel(profileData.experience_level || '');
       }
     };
 
@@ -51,10 +49,6 @@ const Home = ({ session }) => {
     const { min, max } = getMinMax(avg);
     const rate = min + ((max - min) * sliderValue) / 100;
     return +rate.toFixed(2);
-  };
-
-  const handleQuickSelect = (cat) => {
-    setCategory(cat);
   };
 
   const handleSubmit = async () => {
@@ -80,8 +74,6 @@ const Home = ({ session }) => {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-2xl mx-auto px-6 py-16">
-
-        {/* Hero */}
         <h1 className="text-4xl font-bold text-gray-900 text-center mb-3">
           Temukan Tarif Jasa Anda di Pasar Global.
         </h1>
@@ -91,7 +83,7 @@ const Home = ({ session }) => {
 
         {/* Search Bar */}
         <div className="flex border border-gray-200 mb-2">
-          <div className="flex items-center px-4 text-gray-400"></div>
+          <div className="flex items-center px-4 text-gray-400">🔍</div>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -111,32 +103,29 @@ const Home = ({ session }) => {
           </button>
         </div>
 
-        {/* Experience Level */}
-        <div className="flex gap-2 mb-4">
-          {experienceLevels.map((level) => (
-            <button
-              key={level}
-              onClick={() => setExperienceLevel(level)}
-              className={`px-4 py-2 text-xs border transition ${
-                experienceLevel === level
-                  ? 'bg-black text-white border-black'
-                  : 'border-gray-200 text-gray-500 hover:border-black'
-              }`}
-            >
-              {level}
-            </button>
-          ))}
-        </div>
+        {/* Info experience level */}
+        {experienceLevel && (
+          <p className="text-xs text-gray-400 mb-4">
+            Level pengalaman: <span className="font-medium text-gray-600">{experienceLevel}</span>
+            {' '}· <a href="/profile" className="underline hover:text-black">Ubah di profil</a>
+          </p>
+        )}
+
+        {!experienceLevel && (
+          <p className="text-xs text-red-400 mb-4">
+            Belum ada level pengalaman. <a href="/profile" className="underline">Set di profil</a>
+          </p>
+        )}
 
         {/* Data powered by */}
-        <p className="text-center text-xs text-gray-400 mb-6">Data powered by Upwork</p>
+        <p className="text-center text-xs text-gray-400 mb-6">🔒 Data powered by Upwork</p>
 
         {/* Quick Select */}
         <div className="flex flex-wrap gap-2 justify-center mb-10">
           {QUICK_CATEGORIES.map((cat) => (
             <button
               key={cat}
-              onClick={() => handleQuickSelect(cat)}
+              onClick={() => setCategory(cat)}
               className={`border px-4 py-2 text-sm transition ${
                 category === cat
                   ? 'border-black text-black'
@@ -160,7 +149,6 @@ const Home = ({ session }) => {
 
           return (
             <div className="border border-gray-200">
-              {/* Estimasi Tarif */}
               <div className="p-6 border-b border-gray-200">
                 <p className="text-sm text-gray-500 mb-1">Estimasi Tarif</p>
                 <p className="text-4xl font-bold text-gray-900">
@@ -169,8 +157,6 @@ const Home = ({ session }) => {
                 </p>
                 <p className="text-xs text-gray-400 mt-1">Berdasarkan data Upwork</p>
               </div>
-
-              {/* Rentang Tarif */}
               <div className="p-6">
                 <p className="text-sm font-semibold text-gray-900 mb-4">Rentang Tarif</p>
                 <input

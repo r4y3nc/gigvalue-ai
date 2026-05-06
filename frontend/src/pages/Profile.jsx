@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { getProfile, saveProfile, getSkills } from '../services/api';
+import { getProfile, saveProfile, getSkills, getExperienceLevels } from '../services/api';
 
 const Profile = ({ session }) => {
-  const [profile, setProfile] = useState(null);
   const [skills, setSkills] = useState([]);
+  const [experienceLevels, setExperienceLevels] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [description, setDescription] = useState('');
+  const [experienceLevel, setExperienceLevel] = useState('');
   const [searchSkill, setSearchSkill] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -13,15 +14,17 @@ const Profile = ({ session }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const [profileRes, skillsRes] = await Promise.all([
+      const [profileRes, skillsRes, experienceLevelsRes] = await Promise.all([
         getProfile(session.access_token),
         getSkills(),
+        getExperienceLevels(),
       ]);
       const profileData = profileRes.data;
-      setProfile(profileData);
       setSelectedSkills(profileData?.skills || []);
       setDescription(profileData?.description || '');
+      setExperienceLevel(profileData?.experience_level || '');
       setSkills(skillsRes.data.skills);
+      setExperienceLevels(experienceLevelsRes.data.experienceLevels);
     };
     fetchData();
   }, []);
@@ -45,7 +48,11 @@ const Profile = ({ session }) => {
     setLoading(true);
     setSuccess(false);
     try {
-      await saveProfile({ description, skills: selectedSkills }, session.access_token);
+      await saveProfile({
+        description,
+        skills: selectedSkills,
+        experience_level: experienceLevel,
+      }, session.access_token);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
@@ -77,6 +84,24 @@ const Profile = ({ session }) => {
               {session?.user?.email?.split('@')[0]}
             </h1>
 
+            {/* Experience Level */}
+            <p className="text-base font-semibold text-gray-900 mb-3">Level Pengalaman</p>
+            <div className="flex gap-2 mb-6">
+              {experienceLevels.map((level) => (
+                <button
+                  key={level}
+                  onClick={() => setExperienceLevel(level)}
+                  className={`px-4 py-2 text-sm border transition ${
+                    experienceLevel === level
+                      ? 'bg-black text-white border-black'
+                      : 'border-gray-200 text-gray-500 hover:border-black'
+                  }`}
+                >
+                  {level}
+                </button>
+              ))}
+            </div>
+
             {/* Skill Tags */}
             <p className="text-base font-semibold text-gray-900 mb-3">Skill tag</p>
             <div className="flex flex-wrap gap-2 mb-6">
@@ -90,8 +115,6 @@ const Profile = ({ session }) => {
                   {skill}
                 </div>
               ))}
-
-              {/* Add Skill Button */}
               <div className="relative">
                 <button
                   onClick={() => setShowSearch(!showSearch)}
@@ -99,7 +122,6 @@ const Profile = ({ session }) => {
                 >
                   +
                 </button>
-
                 {showSearch && (
                   <div className="absolute left-0 top-12 z-10 bg-white border border-gray-200 shadow-md w-56">
                     <input
@@ -145,7 +167,9 @@ const Profile = ({ session }) => {
             {/* Save Button */}
             <div className="flex justify-end mt-4">
               {success && (
-                <p className="text-green-500 text-sm mr-4 self-center">Profil berhasil disimpan!</p>
+                <p className="text-green-500 text-sm mr-4 self-center">
+                  Profil berhasil disimpan!
+                </p>
               )}
               <button
                 onClick={handleSave}
