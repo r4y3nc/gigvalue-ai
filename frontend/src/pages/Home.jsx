@@ -83,7 +83,7 @@ const Home = ({ session }) => {
 
         {/* Search Bar */}
         <div className="flex border border-gray-200 mb-2">
-          <div className="flex items-center px-4 text-gray-400">🔍</div>
+          <div className="flex items-center px-4 text-gray-400"></div>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -118,7 +118,7 @@ const Home = ({ session }) => {
         )}
 
         {/* Data powered by */}
-        <p className="text-center text-xs text-gray-400 mb-6">🔒 Data powered by Upwork</p>
+        <p className="text-center text-xs text-gray-400 mb-6">Data powered by Upwork</p>
 
         {/* Quick Select */}
         <div className="flex flex-wrap gap-2 justify-center mb-10">
