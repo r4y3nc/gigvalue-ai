@@ -155,7 +155,7 @@ const Profile = ({ session }) => {
             {/* Description */}
             <div className="flex items-center gap-2 mb-3">
               <p className="text-base font-semibold text-gray-900">Deskripsi saya</p>
-              <span className="text-gray-400 text-sm">✏️</span>
+              <span className="text-gray-400 text-sm"></span>
             </div>
             <textarea
               className="w-full border border-gray-200 p-4 text-sm text-gray-700 focus:outline-none resize-none"
