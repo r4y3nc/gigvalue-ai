@@ -6,16 +6,30 @@ const Navbar = ({ session }) => {
     window.location.href = '/';
   };
 
+  const getInitials = (email) => {
+    return email?.split('@')[0].slice(0, 2).toUpperCase();
+  };
+
   return (
-    <nav className="bg-indigo-600 text-white px-6 py-4 flex items-center justify-between shadow-md">
-      <h1 className="text-xl font-bold tracking-wide">💼 GigValue AI</h1>
-      <div className="flex items-center gap-6 text-sm font-medium">
-        <a href="/" className="hover:text-indigo-200 transition">Home</a>
-        <a href="/history" className="hover:text-indigo-200 transition">History</a>
-        <span className="text-indigo-200">{session?.user?.email}</span>
+    <nav className="px-10 py-5 flex items-center justify-between border-b border-gray-100">
+      <a href="/" className="text-sm font-bold">gigvalue.ai</a>
+      <div className="flex items-center gap-8 text-sm text-gray-600">
+        <a href="/" className="hover:text-black transition">Cara kerja</a>
+        <a href="/" className="hover:text-black transition">Home</a>
+        <a href="/" className="hover:text-black transition">Tentang</a>
+      </div>
+      <div className="flex items-center gap-3">
+        <span className="text-sm text-gray-600">
+          {session?.user?.email?.split('@')[0]}
+        </span>
+        <a href="/profile">
+          <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-500 cursor-pointer hover:bg-gray-300 transition">
+            {getInitials(session?.user?.email)}
+          </div>
+        </a>
         <button
           onClick={handleLogout}
-          className="bg-white text-indigo-600 px-3 py-1 rounded-lg hover:bg-indigo-50 transition text-xs font-semibold"
+          className="text-xs text-gray-400 hover:text-black transition ml-2"
         >
           Logout
         </button>

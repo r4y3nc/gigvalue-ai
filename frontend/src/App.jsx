@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import History from './pages/History';
 import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
+import Profile from './pages/Profile';
 
 const App = () => {
   const [session, setSession] = useState(null);
@@ -60,10 +61,18 @@ const App = () => {
     />
   );
 
+  const renderPage = () => {
+    switch (path) {
+      case '/history': return <History session={session} />;
+      case '/profile': return <Profile session={session} />;
+      default: return <Home session={session} />;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navbar session={session} />
-      {path === '/history' ? <History /> : <Home />}
+      {renderPage()}
     </div>
   );
 };

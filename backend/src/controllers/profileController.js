@@ -21,7 +21,7 @@ const getProfile = async (req, res, next) => {
 const saveProfile = async (req, res, next) => {
   try {
     const user_id = req.user.id;
-    const { description, skills } = req.body;
+    const { description, skills, experience_level } = req.body;
 
     const { data, error } = await supabase
       .from('user_profiles')
@@ -29,6 +29,7 @@ const saveProfile = async (req, res, next) => {
         id: user_id,
         description,
         skills,
+        experience_level,
         updated_at: new Date().toISOString(),
       })
       .select()
