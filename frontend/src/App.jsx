@@ -1,78 +1,90 @@
-import { useEffect, useState } from 'react';
-import { supabase } from './services/supabaseClient';
-import { getProfile } from './services/api';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Onboarding from './pages/Onboarding';
-import Profile from './pages/Profile';
+import { useState, useEffect } from "react";
+import { AnimatePresence } from "motion/react";
+import Header from "./components/ui/Header";
+import LandingPage from "./pages/LandingPage";
+import ExperiencePage from "./pages/ExperiencePage";
+import SkillsPage from "./pages/SkillsPage";
+import LoadingPage from "./pages/LoadingPage";
+import ResultPage from "./pages/ResultPage";
 
-const App = () => {
-  const [session, setSession] = useState(null);
-  const [hasProfile, setHasProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const path = window.location.pathname;
+export default function App() {
+  const [step, setStep] = useState(0);
+  const [level, setLevel] = useState(null);
+  const [skills, setSkills] = useState([]);
+  const [pendingScrollId, setPendingScrollId] = useState(null);
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (session) {
-        checkProfile(session);
-      } else {
-        setLoading(false);
-      }
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      if (session) {
-        checkProfile(session);
-      } else {
-        setHasProfile(null);
-        setLoading(false);
-      }
-    });
-  }, []);
-
-  const checkProfile = async (session) => {
-    try {
-      const res = await getProfile(session.access_token);
-      setHasProfile(res.data !== null);
-    } catch {
-      setHasProfile(false);
-    } finally {
-      setLoading(false);
+  const scrollToId = (id) => {
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
+
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const headerOffset = 104;
+    const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
   };
 
-  if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <p className="text-gray-400 text-sm">Loading...</p>
-    </div>
-  );
+  const handleNavigate = (id) => {
+    if (!id) return;
+    if (step === 0) return scrollToId(id);
 
-  if (!session) return <Login />;
+    setPendingScrollId(id);
+    setStep(0);
+  };
 
-  if (!hasProfile) return (
-    <Onboarding
-      session={session}
-      onComplete={() => setHasProfile(true)}
-    />
-  );
-
-  const renderPage = () => {
-    switch (path) {
-      case '/profile': return <Profile session={session} />;
-      default: return <Home session={session} />;
+  useEffect(() => {
+    if (pendingScrollId && step === 0) {
+      requestAnimationFrame(() => {
+        scrollToId(pendingScrollId);
+        setPendingScrollId(null);
+      });
+      return;
     }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [step, pendingScrollId]);
+
+  const resetAll = () => {
+    setLevel(null);
+    setSkills([]);
+    setStep(0);
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar session={session} />
-      {renderPage()}
+    <div className="min-h-screen text-slate-900 font-sans flex flex-col selection:bg-lime-200">
+      {step !== 4 && <Header onNavigate={handleNavigate} />}
+      <main className="flex-1 flex flex-col grow relative">
+        <AnimatePresence mode="wait">
+          {step === 0 && (
+            <LandingPage key="step-0" onStart={() => setStep(1)} />
+          )}
+          {step === 1 && (
+            <ExperiencePage
+              key="step-1"
+              level={level}
+              setLevel={setLevel}
+              onNext={() => setStep(2)}
+              onBack={() => setStep(0)}
+            />
+          )}
+          {step === 2 && (
+            <SkillsPage
+              key="step-2"
+              skills={skills}
+              setSkills={setSkills}
+              onNext={() => setStep(3)}
+              onBack={() => setStep(1)}
+            />
+          )}
+          {step === 3 && (
+            <LoadingPage key="step-3" onComplete={() => setStep(4)} />
+          )}
+          {step === 4 && <ResultPage key="step-4" onReset={resetAll} />}
+        </AnimatePresence>
+      </main>
     </div>
   );
-};
-
-export default App;
+}

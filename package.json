@@ -1,0 +1,8 @@
+{
+  "name": "gigvalue-ai",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
+}
