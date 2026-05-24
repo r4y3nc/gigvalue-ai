@@ -1,0 +1,47 @@
+ROLE_RULES = {
+    "Web Development":          ["web development","javascript","react","node.js","html","css","php","wordpress","shopify","woocommerce","typescript","vue","angular","next.js","laravel","django","html5","full stack"],
+    "Data Science & Analytics": ["python","machine learning","data science","data analysis","data visualization","sql","pandas","numpy","tensorflow","scikit","deep learning","nlp","neural network","big data","spark","hadoop","etl","bigquery","tableau","power bi","statistics"],
+    "Mobile Development":       ["android","ios","mobile app","react native","flutter","kotlin","swift","android app","ios development","smartphone","mobile development"],
+    "Cloud & DevOps":           ["amazon web services","aws","azure","google cloud","docker","kubernetes","devops","terraform","jenkins","linux","cloud computing","microservices","api","restful api"],
+    "Design & Creative":        ["graphic design","adobe photoshop","adobe illustrator","ui design","ux design","logo design","brand identity","3d modeling","3d design","3d rendering","3d animation","figma","canva","motion graphics","video editing","animation","illustration"],
+    "Digital Marketing":        ["social media marketing","marketing strategy","facebook advertising","google ads","search engine optimization","email marketing","content marketing","pay per click","social media management","lead generation","internet marketing"],
+    "AI & Machine Learning":    ["artificial intelligence","machine learning","deep learning","nlp","computer vision","neural network","gpt","llm","chatgpt","generative ai","transformers"],
+    "Game Development":         ["game development","unity","unreal engine","game design","godot","gaming"],
+    "Blockchain & Web3":        ["blockchain","smart contract","solidity","nft","web3","cryptocurrency","defi","ethereum"],
+    "Finance & Accounting":     ["accounting","bookkeeping","financial analysis","financial modeling","quickbooks","xero"],
+    "Writing & Content":        ["content writing","copywriting","blog writing","article writing","seo writing","creative writing","ghostwriting","editing","proofreading"],
+    "Sales & Business Development": ["cold calling","telemarketing","business development","appointment setting","outbound sales","salesforce"],
+    "Data Entry & Research":    ["data entry","data scraping","data mining","list building","virtual assistant","microsoft excel","market research"],
+    "Customer Service":         ["customer service","customer support","phone support","technical support"],
+    "Cybersecurity":            ["cybersecurity","ethical hacking","penetration testing","network security","vulnerability"],
+}
+
+JOB_SUGGESTIONS = {
+    "Web Development":          ["Full Stack Developer","Frontend Developer","Backend Developer","React Developer","Node.js Developer","WordPress Developer","Shopify Developer","PHP Developer","Vue.js Developer","Web Designer"],
+    "Data Science & Analytics": ["Data Scientist","Data Analyst","ML Engineer","Python Developer","Data Engineer","BI Developer","Statistical Analyst","Research Analyst","Analytics Engineer","Business Intelligence Developer"],
+    "Mobile Development":       ["Android Developer","iOS Developer","React Native Developer","Flutter Developer","Mobile App Developer","Cross-Platform Developer","Swift Developer","Kotlin Developer"],
+    "Cloud & DevOps":           ["DevOps Engineer","Cloud Architect","AWS Engineer","Azure Developer","Site Reliability Engineer","Solutions Architect","Infrastructure Engineer","Platform Engineer","Kubernetes Specialist","CI/CD Engineer"],
+    "Design & Creative":        ["UI/UX Designer","Graphic Designer","Logo Designer","Brand Designer","Motion Graphics Designer","3D Artist","Product Designer","Visual Designer","Video Editor","Illustrator"],
+    "Digital Marketing":        ["Digital Marketing Specialist","SEO Specialist","PPC Specialist","Social Media Manager","Content Strategist","Growth Marketer","Email Marketing Specialist","Facebook Ads Manager","Marketing Consultant","SEM Specialist"],
+    "AI & Machine Learning":    ["ML Engineer","AI Developer","Data Scientist","NLP Engineer","Computer Vision Engineer","Deep Learning Researcher","AI Consultant","LLM Developer","MLOps Engineer","Prompt Engineer"],
+    "Game Development":         ["Game Developer","Unity Developer","Unreal Engine Developer","Game Designer","2D/3D Game Artist","Gameplay Programmer","VR/AR Developer"],
+    "Blockchain & Web3":        ["Blockchain Developer","Smart Contract Developer","Solidity Developer","Web3 Developer","DeFi Developer","NFT Developer","Crypto Consultant"],
+    "Finance & Accounting":     ["Financial Analyst","Bookkeeper","Accountant","CFO Consultant","Financial Modeler","Tax Specialist","QuickBooks Expert"],
+    "Writing & Content":        ["Content Writer","Copywriter","Blog Writer","Technical Writer","SEO Writer","Ghostwriter","Editor & Proofreader"],
+    "Sales & Business Development": ["Sales Representative","Business Development Manager","Account Executive","Lead Generation Specialist","Sales Consultant","SDR"],
+    "Data Entry & Research":    ["Data Entry Specialist","Virtual Assistant","Research Analyst","Market Researcher","Data Cleansing Specialist","Web Researcher"],
+    "Customer Service":         ["Customer Support Specialist","Customer Success Manager","Technical Support Agent","Help Desk Specialist","Account Manager"],
+    "Cybersecurity":            ["Penetration Tester","Security Analyst","Ethical Hacker","Cybersecurity Consultant","Security Engineer"],
+    "Other":                    ["IT Consultant","Project Manager","Business Analyst","Technical Consultant","Freelance Specialist"],
+}
+
+HIGH_VALUE_SKILLS = [
+    "machine learning","tensorflow","pytorch","computer vision","nlp","deep learning","llm","gpt","transformers","mlops",
+    "aws","amazon web services","azure","google cloud","docker","kubernetes","terraform","ci/cd","devops","serverless",
+    "python","golang","java","fastapi","django","flask","spring boot","postgresql","mongodb","redis","graphql","restful api",
+    "react","next.js","typescript","vue.js","angular","tailwind css","svelte",
+    "flutter","react native","swift","kotlin",
+    "blockchain","solidity","smart contract","web3",
+    "cybersecurity","penetration testing","ethical hacking",
+    "consultant","strategy","saas","technical leadership",
+]

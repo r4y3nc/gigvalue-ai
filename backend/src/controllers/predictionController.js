@@ -1,43 +1,56 @@
 const mlService = require('../services/mlService');
 const supabase = require('../services/supabaseClient');
-const { transformDescription } = require('../services/geminiService');
+const { transformDescription, getSkillImprovement } = require('../services/geminiService');
 
 const predict = async (req, res, next) => {
   try {
-    const { category, skills, experience_level, description } = req.body;
-    const user_id = req.user.id;
+    const { job_title, experience_level, skills, description } = req.body;
 
-    // Transform description via Gemini
-    const transformed_description = await transformDescription(
-      description,
-      category,
-      skills
-    );
+    // Transform description jika ada
+    let transformed_description = null;
+    if (description) {
+      transformed_description = await transformDescription(description, job_title, skills);
+    }
 
     // Kirim ke FastAPI
     const result = await mlService.getPrediction({
-      category,
-      skills,
+      job_title,
       experience_level,
-      description: transformed_description,
+      skills,
+      ...(transformed_description && { description: transformed_description }),
     });
+
+    // Get skill improvement dari Gemini
+    const skill_improvement = await getSkillImprovement(
+      job_title,
+      skills,
+      result.predicted_rate
+    );
 
     // Simpan ke Supabase
     const { error } = await supabase
       .from('predictions')
       .insert({
-        user_id,
-        category,
+        job_title,
         skills,
         experience_level,
-        description,
+        description: description || null,
         transformed_description,
         predicted_rate: result.predicted_rate,
+        currency: 'USD',
       });
 
     if (error) throw new Error(error.message);
 
-    res.json({ success: true, data: result });
+    res.json({
+      success: true,
+      data: {
+        predicted_rate: result.predicted_rate,
+        confidence_score: result.confidence_score,
+        skill_improvement,
+        currency: 'USD',
+      },
+    });
   } catch (error) {
     if (error.code === 'ECONNREFUSED') {
       error.message = 'ML service is not available. Please try again later.';
@@ -48,12 +61,9 @@ const predict = async (req, res, next) => {
 
 const getHistory = async (req, res, next) => {
   try {
-    const user_id = req.user.id;
-
     const { data, error } = await supabase
       .from('predictions')
       .select('*')
-      .eq('user_id', user_id)
       .order('created_at', { ascending: false })
       .limit(10);
 
