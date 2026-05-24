@@ -1,1 +1,29 @@
-.venv
+# ── Virtual Environments ──
+.venv/
+venv/
+env/
+
+# ── Python Cache ──
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.env
+
+# ── IDE & Editor ──
+.vscode/
+.idea/
+*.swp
+
+# ── OS Generated Files ──
+.DS_Store
+Thumbs.db
+
+# ── Logs ──
+*.log
+
+*.csv
+*.tsv
+*.dat
+*.sqlite3
