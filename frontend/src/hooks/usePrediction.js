@@ -6,12 +6,17 @@ const usePrediction = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const predict = async (profileData) => {
+  const predict = async ({ category, experience_level, skills, description }) => {
     setLoading(true);
     setError(null);
     setResult(null);
     try {
-      const response = await predictRate(profileData);
+      const response = await predictRate({
+        category,
+        experience_level,
+        skills,
+        description,
+      });
       setResult(response.data);
     } catch (err) {
       setError(
@@ -22,7 +27,13 @@ const usePrediction = () => {
     }
   };
 
-  return { result, loading, error, predict };
+  const reset = () => {
+    setResult(null);
+    setError(null);
+    setLoading(false);
+  };
+
+  return { result, loading, error, predict, reset };
 };
 
 export default usePrediction;

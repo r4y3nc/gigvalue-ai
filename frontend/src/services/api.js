@@ -7,16 +7,19 @@ const api = axios.create({
   },
 });
 
-export const predictRate = async (profileData, token) => {
-  const response = await api.post('/api/predict', profileData, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+// Map experience level dari frontend ke format FastAPI
+const EXPERIENCE_MAP = {
+  beginner: 'Entry level',
+  intermediate: 'Intermediate',
+  expert: 'Expert',
 };
 
-export const getHistory = async (token) => {
-  const response = await api.get('/api/predictions', {
-    headers: { Authorization: `Bearer ${token}` },
+export const predictRate = async ({ category, experience_level, skills, description }) => {
+  const response = await api.post('/api/predict', {
+    category,
+    experience_level: EXPERIENCE_MAP[experience_level] || experience_level,
+    skills,
+    description,
   });
   return response.data;
 };
@@ -26,27 +29,13 @@ export const getSkills = async () => {
   return response.data;
 };
 
-export const getCategories = async () => {
-  const response = await api.get('/api/categories');
+export const getSuggestions = async () => {
+  const response = await api.get('/api/suggestions');
   return response.data;
 };
 
-export const getExperienceLevels = async () => {
-  const response = await api.get('/api/experience-levels');
-  return response.data;
-};
-
-export const getProfile = async (token) => {
-  const response = await api.get('/api/profile', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
-};
-
-export const saveProfile = async (profileData, token) => {
-  const response = await api.post('/api/profile', profileData, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const getSuggestionsByRole = async (role) => {
+  const response = await api.get(`/api/suggestions/${encodeURIComponent(role)}`);
   return response.data;
 };
 
