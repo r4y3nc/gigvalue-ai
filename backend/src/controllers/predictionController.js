@@ -1,53 +1,53 @@
 const mlService = require('../services/mlService');
 const supabase = require('../services/supabaseClient');
-const { transformDescription, getSkillImprovement } = require('../services/geminiService');
 
 const predict = async (req, res, next) => {
   try {
-    const { job_title, experience_level, skills, description } = req.body;
-
-    // Transform description jika ada
-    let transformed_description = null;
-    if (description) {
-      transformed_description = await transformDescription(description, job_title, skills);
-    }
+    const {
+      category,
+      experience_level,
+      skills,
+      description,
+      country,
+      client_rating,
+      client_review_count,
+    } = req.body;
 
     // Kirim ke FastAPI
     const result = await mlService.getPrediction({
-      job_title,
+      category,
       experience_level,
       skills,
-      ...(transformed_description && { description: transformed_description }),
+      description,
+      country,
+      client_rating,
+      client_review_count,
     });
 
-    // Get skill improvement dari Gemini
-    const skill_improvement = await getSkillImprovement(
-      job_title,
-      skills,
-      result.predicted_rate
-    );
-
-    // Simpan ke Supabase
-    const { error } = await supabase
+    // Simpan ke Supabase (non-blocking)
+    supabase
       .from('predictions')
       .insert({
-        job_title,
+        job_title: category,
         skills,
         experience_level,
-        description: description || null,
-        transformed_description,
-        predicted_rate: result.predicted_rate,
+        description,
+        predicted_rate: result.predicted_rate_usd,
         currency: 'USD',
-      });
-
-    if (error) throw new Error(error.message);
+      })
+      .then()
+      .catch((err) => console.error('[Supabase Insert Error]', err.message));
 
     res.json({
       success: true,
       data: {
-        predicted_rate: result.predicted_rate,
-        confidence_score: result.confidence_score,
-        skill_improvement,
+        predicted_rate: result.predicted_rate_usd,
+        rate_range: result.rate_range,
+        confidence: result.confidence,
+        rating_description: result.rating_description,
+        skill_recommendations: result.skill_recommendations,
+        job_suggestions: result.job_suggestions,
+        detected_role: result.detected_role,
         currency: 'USD',
       },
     });

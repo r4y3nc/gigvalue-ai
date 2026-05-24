@@ -4,7 +4,7 @@ const healthCheck = async (req, res) => {
     let mlStatus = 'unavailable';
 
     try {
-        await axios.get(`${process.env.ML_SERVICE_URL}/health`);
+        await axios.get(`${process.env.DL_SERVICE_URL}/health`);
         mlStatus = 'available';
     } catch {
         mlStatus = 'unavailable';
