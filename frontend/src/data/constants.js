@@ -257,13 +257,50 @@ export const experiencePageData = {
 // ─── Skills page ──────────────────────────────────────────────────────────────
 export const skillsPageData = {
   back_label: "Kembali",
-  title_1: "Skill apa aja yang kamu kuasai",
-  title_2: "sebagai Data Scientist?",
+  title_1: "Tech Skills",
+  title_2: "yang kamu kuasai",
   subtitle: "Pilih minimal 1 skill. Makin banyak, makin akurat estimasinya.",
   search_placeholder: "Cari skill...",
   selected_label: "Dipilih",
+  extra_label: "Skill tambahan (pisahkan koma)",
+  extra_placeholder: "GraphQL, Redis...",
   next_button: "Selanjutnya",
   alt_laptop: "Pilih skill kamu",
+};
+
+// ─── Deskripsi profil page ──────────────────────────────────────────────────
+export const profileDescPageData = {
+  back_label: "Kembali",
+  title: "Deskripsi Profil",
+  subtitle: "Ceritakan pengalamanmu secara singkat.",
+  story_label: "Ceritakan pengalamanmu",
+  story_placeholder: "3 tahun membangun web app untuk startup B2B, spesialis React dan Node.js...",
+  next_button: "Selanjutnya",
+};
+
+// ─── Detail opsional page ───────────────────────────────────────────────────
+export const optionalDetailsPageData = {
+  back_label: "Kembali",
+  title: "Detail tambahan",
+  subtitle: "Opsional, membantu saran AI lebih akurat.",
+  achievement_label: "Pencapaian terbesar (opsional)",
+  achievement_placeholder: "Meningkatkan performa app 40%, sistem payment 10.000+ user...",
+  industry_label: "Target klien/industri (opsional)",
+  industry_placeholder: "Startup teknologi...",
+  rate_label: "Target tarif/jam (USD) - untuk saran AI",
+  next_button: "Selanjutnya",
+};
+
+// ─── Info tambahan page ─────────────────────────────────────────────────────
+export const extraInfoPageData = {
+  back_label: "Kembali",
+  title: "Info tambahan",
+  subtitle: "Opsional - meningkatkan akurasi.",
+  country_label: "Negara",
+  country_options: ["United States", "Canada", "United Kingdom", "Australia", "Indonesia"],
+  reviews_label: "Jumlah review diterima",
+  rating_label: "Rating klien (jika ada)",
+  next_button: "Selanjutnya",
 };
 
 // ─── Loading page ─────────────────────────────────────────────────────────────

@@ -30,7 +30,7 @@ const LoadingPage = ({ onComplete }) => {
       className="w-full max-w-5xl mx-auto flex flex-col pt-4 px-4 overflow-hidden"
     >
       <div className="mb-20">
-        <ProgressBar currentStep={3} />
+        <ProgressBar currentStep={6} />
       </div>
       <div className="flex flex-col md:flex-row items-center md:items-start gap-16 mt-8 max-w-4xl mx-auto w-full px-4">
         <div className="w-40 h-40 md:w-52 md:h-52 shrink-0">

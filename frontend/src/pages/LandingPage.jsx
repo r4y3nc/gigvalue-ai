@@ -228,6 +228,7 @@ const LandingPage = ({ onStart }) => {
               placeholder={hero.search_placeholder}
               buttonLabel={hero.cta_button}
               size="lg"
+              defaultValue={hero.search_value}
               onSubmit={onStart}
             />
           </div>

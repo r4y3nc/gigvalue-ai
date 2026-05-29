@@ -4,9 +4,15 @@ import ProgressBar from "../components/ui/ProgressBar";
 import { allSkills, skillsPageData } from "../data/constants";
 import laptopImg from "../assets/bigclay/laptop.png";
 
-const SkillsPage = ({ onNext, onBack, skills, setSkills }) => {
+const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) => {
   const toggleSkill = (s) =>
     setSkills((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
+
+  const updateProfile = (updates) =>
+    setProfile((prev) => ({
+      ...prev,
+      ...updates,
+    }));
 
   return (
     <motion.div
@@ -66,6 +72,17 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills }) => {
             );
           })}
         </div>
+        <label className="flex flex-col gap-2 text-sm font-semibold text-slate-700 mb-16">
+          {skillsPageData.extra_label}
+          <input
+            type="text"
+            value={profile.extraSkills}
+            onChange={(event) => updateProfile({ extraSkills: event.target.value })}
+            placeholder={skillsPageData.extra_placeholder}
+            className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-4"
+            style={{ "--tw-ring-color": "#83AA3E20" }}
+          />
+        </label>
       </div>
       <div className="flex justify-end mt-auto mb-12">
         <button

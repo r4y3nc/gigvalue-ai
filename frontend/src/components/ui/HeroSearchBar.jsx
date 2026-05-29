@@ -1,4 +1,5 @@
 import { Search, ArrowRight } from "lucide-react";
+import { useState } from "react";
 
 /**
  * HeroSearchBar — reusable search bar used in Hero and CTA sections.
@@ -16,7 +17,13 @@ const HeroSearchBar = ({
   onSubmit,
   defaultValue = "",
 }) => {
+  const [value, setValue] = useState(defaultValue);
   const isLg = size === "lg";
+
+  const handleSubmit = () => {
+    if (typeof onSubmit !== "function") return;
+    onSubmit(value.trim());
+  };
 
   return (
     <div className={`relative w-full ${isLg ? "max-w-2xl" : "max-w-2xl"}`}>
@@ -26,7 +33,14 @@ const HeroSearchBar = ({
       <input
         type="text"
         placeholder={placeholder}
-        defaultValue={defaultValue}
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            handleSubmit();
+          }
+        }}
         className={`w-full bg-white shadow-xs text-slate-800 placeholder:text-slate-400 rounded-full border-2 border-slate-200 focus:outline-none focus:ring-4 transition-all ${
           isLg
             ? "pl-16 pr-40 py-5 text-lg"
@@ -35,7 +49,7 @@ const HeroSearchBar = ({
         style={{ "--tw-ring-color": "#83AA3E25" }}
       />
       <button
-        onClick={onSubmit}
+        onClick={handleSubmit}
         className={`absolute right-2.5 top-1/2 -translate-y-1/2 text-white font-bold rounded-full transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-md cursor-pointer ${
           isLg ? "px-6 py-3.5 text-base" : "px-7 py-3.5 text-sm"
         }`}
