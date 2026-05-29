@@ -14,7 +14,7 @@ const healthCheck = async (req, res) => {
         success: true,
         data: {
             server: 'available',
-            mlService: mlStatus,
+            dlService: mlStatus,
             timestamp: new Date().toISOString(),
         },
     });

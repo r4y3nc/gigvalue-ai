@@ -22,7 +22,7 @@ const getPrediction = async (profileData) => {
   };
 
   const response = await axios.post(
-    `${process.env.ML_SERVICE_URL}/model/predict`,
+    `${process.env.DL_SERVICE_URL}/model/predict`,
     payload
   );
   return response.data;

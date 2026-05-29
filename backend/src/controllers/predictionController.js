@@ -13,7 +13,6 @@ const predict = async (req, res, next) => {
       client_review_count,
     } = req.body;
 
-    // Kirim ke FastAPI
     const result = await mlService.getPrediction({
       category,
       experience_level,
@@ -24,7 +23,6 @@ const predict = async (req, res, next) => {
       client_review_count,
     });
 
-    // Simpan ke Supabase (non-blocking)
     supabase
       .from('predictions')
       .insert({
@@ -53,7 +51,7 @@ const predict = async (req, res, next) => {
     });
   } catch (error) {
     if (error.code === 'ECONNREFUSED') {
-      error.message = 'ML service is not available. Please try again later.';
+      error.message = 'DL service is not available. Please try again later.';
     }
     next(error);
   }
