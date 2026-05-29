@@ -8,11 +8,11 @@ class Settings:
     VERSION: str = "2.0.0"
     MODEL_PATH: str = os.getenv(
         "MODEL_PATH",
-        os.path.join(BASE_DIR, "app", "models", "gigvalue_sgd_tuned.pkl")
+        os.path.join(BASE_DIR, "app", "models", "gigvalue_dl.keras")
     )
     CONFIG_PATH: str = os.getenv(
         "CONFIG_PATH",
-        os.path.join(BASE_DIR, "app", "models", "model_config.pkl")
+        os.path.join(BASE_DIR, "app", "models", "gigvalue_dl_artifacts.pkl")
     )
 
 settings = Settings()

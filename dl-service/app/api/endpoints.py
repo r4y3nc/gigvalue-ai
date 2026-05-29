@@ -10,7 +10,7 @@ router = APIRouter()
 def health():
     return {
         "status": "ok", 
-        "model": "Tuned SGDRegressor", 
+        "model": "Deep Learning (.keras)", 
         "version": "2.0.0",
         "features": ["predict", "rating_description", "skill_recommendations", "job_suggestions"]
     }
@@ -19,7 +19,6 @@ def health():
 @router.post("/model/predict")
 def predict(req: PredictRequest):
     try:
-        # Panggil fungsi dari inference.py menggunakan data yang sudah divalidasi Pydantic
         result = predict_hourly_rate(
             description         = req.description,
             skills              = req.skills,
@@ -52,7 +51,6 @@ def all_suggestions():
 @router.get("/api/suggestions/{role}")
 def suggestions_by_role(role: str):
     role_lower = role.lower()
-    # Mencari role yang cocok (case-insensitive)
     matched = next((r for r in JOB_SUGGESTIONS if r.lower() == role_lower or role_lower in r.lower()), None)
     
     if not matched:
@@ -67,3 +65,4 @@ def suggestions_by_role(role: str):
         "matched": True, 
         "suggestions": JOB_SUGGESTIONS[matched]
     }
+

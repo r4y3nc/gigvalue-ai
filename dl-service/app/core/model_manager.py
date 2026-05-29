@@ -1,8 +1,9 @@
 import logging
 import pickle
 from typing import Any, Dict, Optional
+import tensorflow as tf
 
-logger = logging.getLogger("ml_service.model_manager")
+logger = logging.getLogger("dl_service.model_manager")
 
 class ModelManager:
     def __init__(self) -> None:
@@ -11,8 +12,8 @@ class ModelManager:
 
     def load_artifacts(self, model_path: str, config_path: str) -> None:
         try:
-            with open(model_path, "rb") as model_file:
-                self.model = pickle.load(model_file)
+            self.model = tf.keras.models.load_model(model_path)
+            
             with open(config_path, "rb") as config_file:
                 self.config = pickle.load(config_file)
 

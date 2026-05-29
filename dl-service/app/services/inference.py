@@ -1,8 +1,17 @@
 import re
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from app.core.model_manager import model_manager
 from app.services.constants import ROLE_RULES, JOB_SUGGESTIONS, HIGH_VALUE_SKILLS
+
+def encode_cat(value: str, vocab: list) -> np.ndarray:
+    lookup = tf.keras.layers.StringLookup(
+        vocabulary=vocab,
+        output_mode="int",
+        num_oov_indices=1,
+    )
+    return lookup(np.array([str(value)])).numpy()
 
 def clean_text_inference(text: str) -> str:
     text = str(text).lower()
@@ -110,23 +119,30 @@ def predict_hourly_rate(
     if not str(description).strip():
         return {"status": "error", "message": "Deskripsi tidak boleh kosong."}
 
+    scaler = model_manager.config["scaler"]
+    lv = model_manager.config["lookup_vocabs"]
+    metrics = model_manager.config["metrics"]
+
     text_clean = clean_text_inference(f"{description} {skills}")
+
     log_review = float(np.log1p(max(client_review_count, 0)))
     has_review = 1.0 if client_review_count > 0 else 0.0
+    raw_num = np.array([[float(client_rating), log_review, has_review]])
+    scaled_num = scaler.transform(raw_num).astype(np.float32)
 
-    df_input = pd.DataFrame([{
-        "client_rating": float(client_rating),
-        "log_client_review_count": log_review,
-        "has_client_reviews": has_review,
-        "category": str(category),
-        "country": str(country),
-        "experience_level": str(experience),
-        "text_combined_clean_sgd_tuning": text_clean,
-    }])
+    inputs = {
+        "text_input":             tf.constant([text_clean], dtype=tf.string),
+        "numeric_input":          tf.constant(scaled_num, dtype=tf.float32),
+        "category_input":         tf.constant(encode_cat(category, lv["category"]), dtype=tf.int64),
+        "country_input":          tf.constant(encode_cat(country, lv["country"]), dtype=tf.int64),
+        "experience_level_input": tf.constant(encode_cat(experience, lv["experience_level"]), dtype=tf.int64),
+    }
 
-    log_pred = float(model_manager.model.predict(df_input)[0])
+    raw_pred = model_manager.model.predict(inputs, verbose=0)
+    log_pred = float(raw_pred[0][0])
+    
     rate_usd = float(np.expm1(log_pred))
-    rmse = model_manager.config["metrics"]["RMSE"]
+    rmse = metrics["RMSE"]
     rate_low = float(np.expm1(log_pred - rmse))
     rate_high = float(np.expm1(log_pred + rmse))
 
@@ -151,7 +167,7 @@ def predict_hourly_rate(
         "skill_recommendations": get_skill_recommendations(skills, description, experience),
         "job_suggestions": get_job_suggestions(detected_role),
         "detected_role": detected_role,
-        "model": "Tuned SGDRegressor",
+        "model": "Deep Learning (TensorFlow Functional API)",
         "model_version": model_manager.config.get("model_version", "unknown"),
         "note": "Prediksi berdasarkan data pasar Upwork.",
     }
