@@ -39,7 +39,7 @@ export default function App() {
     achievements: "",
     targetIndustry: "",
     targetRate: 0,
-    country: "United States",
+    country: "Indonesia",
     reviewCount: 0,
     rating: 0,
   };

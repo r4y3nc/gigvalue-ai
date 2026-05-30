@@ -48,15 +48,19 @@ const ExtraInfoPage = ({ onNext, onBack, profile, setProfile }) => (
         <label className="flex flex-col gap-2 text-sm font-semibold text-slate-700">
           {extraInfoPageData.reviews_label}
           <input
-            type="number"
-            min={0}
-            value={profile.reviewCount}
-            onChange={(event) =>
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={profile.reviewCount === 0 ? "" : profile.reviewCount}
+            onChange={(event) => {
+              const onlyNumbers = event.target.value.replace(/[^0-9]/g, "");
+
               setProfile((prev) => ({
                 ...prev,
-                reviewCount: Math.max(0, Number(event.target.value) || 0),
-              }))
-            }
+                reviewCount: onlyNumbers === "" ? 0 : Number(onlyNumbers),
+              }));
+            }}
+            placeholder="0"
             className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-4"
             style={{ "--tw-ring-color": "#83AA3E20" }}
           />

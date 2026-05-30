@@ -271,8 +271,6 @@ const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
           </div>
           <div className="text-xs font-semibold text-slate-400 leading-tight">
             <span>{resultData.rate_recommendation.based_on_prefix} 2jt+ pengguna aktif Upwork </span>
-            <span className="text-slate-300 mx-1">|</span>
-            <span className="text-[#83AA3E] font-bold">Berdasarkan ML Inference</span>
           </div>
         </div>
       </div>

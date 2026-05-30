@@ -287,7 +287,7 @@ export const optionalDetailsPageData = {
   achievement_placeholder: "Meningkatkan performa app 40%, sistem payment 10.000+ user...",
   industry_label: "Target klien/industri (opsional)",
   industry_placeholder: "Startup teknologi...",
-  rate_label: "Target tarif/jam (USD) - untuk saran AI",
+  rate_label: "Target tarif/jam (IDR) - untuk saran AI",
   next_button: "Selanjutnya",
 };
 
@@ -297,7 +297,7 @@ export const extraInfoPageData = {
   title: "Info tambahan",
   subtitle: "Opsional - meningkatkan akurasi.",
   country_label: "Negara",
-  country_options: ["United States", "Canada", "United Kingdom", "Australia", "Indonesia"],
+  country_options: ["Indonesia", "United States", "Canada", "United Kingdom", "Australia"],
   reviews_label: "Jumlah review diterima",
   rating_label: "Rating klien (jika ada)",
   next_button: "Selanjutnya",
