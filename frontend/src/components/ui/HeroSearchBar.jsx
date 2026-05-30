@@ -112,7 +112,7 @@ const HeroSearchBar = ({
       </div>
 
       {isOpen && (value.trim() !== "" || filteredRoles.length > 0) && (
-        <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl z-[9999] overflow-hidden">
+        <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-md z-[9999] overflow-hidden">
           
           <div className="h-auto max-h-[196px] overflow-y-auto py-1 text-left">
             

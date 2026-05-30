@@ -5,8 +5,8 @@ const items = [...trendingSkillsTicker, ...trendingSkillsTicker];
 
 const TrendingMarquee = () => (
   <div className="relative w-full overflow-hidden py-2">
-    <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-28 bg-gradient-to-r from-[#f6f5f3] to-transparent" />
-    <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-28 bg-gradient-to-l from-[#f6f5f3] to-transparent" />
+    <div className="pointer-events-none absolute left-0 top-0 z-1 h-full w-28 bg-gradient-to-r from-[#f6f5f3] to-transparent" />
+    <div className="pointer-events-none absolute right-0 top-0 z-1 h-full w-28 bg-gradient-to-l from-[#f6f5f3] to-transparent" />
     <div className="animate-marquee">
       {items.map((item, i) => (
         <div
