@@ -58,7 +58,6 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
     const unselectedSkills = availableSkills.filter((skill) => !skills.includes(skill));
 
     if (searchQuery.trim() !== "") {
-      // Batasi hasil pencarian maksimal 10 agar UI tidak meledak ke bawah
       return unselectedSkills
         .filter((skill) => skill.toLowerCase().includes(searchQuery.toLowerCase()))
         .slice(0, 10);
@@ -79,14 +78,15 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
       return skillLower.includes(roleLower) || roleLower.includes(skillLower);
     });
 
-    // PERBAIKAN FATAL: Menambahkan titik tiga (...) sebelum unselectedSkills 
-    // agar array tidak menggumpal menjadi string raksasa
     const combinedUnique = Array.from(new Set([...matchedSkills, ...unselectedSkills]));
     
     return combinedUnique.slice(0, 7);
   };
 
   const displayedSkills = getDisplayedSkills();
+
+  // Tombol aktif jika pilih skill utama minimal 1 ATAU input skill tambahan diisi
+  const canContinue = skills.length > 0 || (profile?.extraSkills || "").trim() !== "";
 
   return (
     <motion.div
@@ -131,13 +131,10 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
       </div>
 
       <div className="w-full max-w-3xl">
-        
-        {/* Indikator Total Label */}
         <h3 className="font-bold text-slate-800 text-lg mb-4">
           {skillsPageData.selected_label} ({skills.length})
         </h3>
         
-        {/* BAGIAN 1: CONTAINER SKILL YANG SUDAH DIPILIH */}
         {skills.length > 0 && (
           <div className="mb-8 p-4 bg-slate-50 rounded-2xl border border-slate-100">
             <div className="flex flex-wrap gap-2">
@@ -161,7 +158,6 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
           </div>
         )}
         
-        {/* BAGIAN 2: CONTAINER REKOMENDASI / HASIL CARI BARU */}
         <div className="flex flex-wrap gap-3 mb-20">
           {loading ? (
             <div className="text-slate-400 text-sm italic">Memuat rekomendasi teknologi...</div>
@@ -192,7 +188,7 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
           {skillsPageData.extra_label}
           <input
             type="text"
-            value={profile.extraSkills}
+            value={profile.extraSkills || ""}
             onChange={(event) => updateProfile({ extraSkills: event.target.value })}
             placeholder={skillsPageData.extra_placeholder}
             className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-4"
@@ -203,7 +199,7 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
 
       <div className="flex justify-end mt-auto mb-12">
         <button
-          disabled={skills.length === 0}
+          disabled={!canContinue}
           onClick={onNext}
           className="disabled:opacity-40 disabled:cursor-not-allowed text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
           style={{ backgroundColor: "#83AA3E" }}
