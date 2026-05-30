@@ -5,22 +5,31 @@ import ProgressBar from "../components/ui/ProgressBar";
 import { loadingSteps, loadingPageData } from "../data/constants";
 import brainImg from "../assets/bigclay/brain.png";
 
-const LoadingPage = ({ onComplete }) => {
+const LoadingPage = ({ onComplete, isLoading }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveStep((prev) => {
-        if (prev >= loadingSteps.length - 1) {
-          clearInterval(interval);
-          setTimeout(onComplete, 1200);
-          return prev;
+        if (prev < loadingSteps.length - 1) {
+          return prev + 1;
         }
-        return prev + 1;
+        clearInterval(interval);
+        return prev;
       });
     }, 1500);
+
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (activeStep === loadingSteps.length - 1 && !isLoading) {
+      const timeout = setTimeout(() => {
+        onComplete();
+      }, 800);
+      return () => clearTimeout(timeout);
+    }
+  }, [activeStep, isLoading, onComplete]);
 
   return (
     <motion.div

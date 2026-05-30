@@ -155,17 +155,38 @@ def predict_hourly_rate(
         float(client_rating) > 0,
         int(client_review_count) > 0,
     ])
-    confidence = "high" if score >= 6 else "medium" if score >= 4 else "low"
+    
+    confidence_level = "high" if score >= 6 else "medium" if score >= 4 else "low"
+    confidence_percentage = int(round((score / 7.0) * 100))
+    
     detected_role = detect_role(category, description, skills)
+
+    min_rate = int(round(max(rate_low, 1.0), 0))
+    max_rate = int(round(rate_high, 0))
+    rate_range_str = f"${min_rate} - ${max_rate}"
+
+    raw_skills = get_skill_recommendations(skills, description, experience)
+    mapped_skills = [s["skill"].title() if isinstance(s, dict) else str(s).title() for s in raw_skills]
+
+    raw_jobs = get_job_suggestions(detected_role)
+    mapped_jobs = [
+        {
+            "title": job,
+            "tags": [detected_role],
+            "rate": rate_range_str,
+            "type": "Rekomendasi AI"
+        }
+        for job in raw_jobs
+    ]
 
     return {
         "status": "success",
         "predicted_rate_usd": round(rate_usd, 2),
-        "rate_range": {"min": round(max(rate_low, 1.0), 2), "max": round(rate_high, 2)},
-        "confidence": confidence,
-        "rating_description": get_rating_description(confidence, rate_usd),
-        "skill_recommendations": get_skill_recommendations(skills, description, experience),
-        "job_suggestions": get_job_suggestions(detected_role),
+        "rate_range": rate_range_str,
+        "confidence": confidence_percentage,
+        "rating_description": get_rating_description(confidence_level, rate_usd),
+        "skill_recommendations": mapped_skills,
+        "job_suggestions": mapped_jobs,
         "detected_role": detected_role,
         "model": "Deep Learning (TensorFlow Functional API)",
         "model_version": model_manager.config.get("model_version", "unknown"),

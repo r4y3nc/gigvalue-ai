@@ -92,7 +92,7 @@ export const hero = {
   heading_highlight_2: "hitungan detik.",
   subheading: "Masukkan peran kamu, dan kami prediksi tarif paling kompetitif berdasarkan jutaan data freelancer aktif.",
   search_placeholder: "Coba: frontend developer, UI/UX, backend developer...",
-  search_value: "Data Science",
+  search_value: "",
   cta_button: "Mulai",
   data_badge: "Data powered by Upwork",
 };

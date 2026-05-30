@@ -14,12 +14,23 @@ const EXPERIENCE_MAP = {
   expert: 'Expert',
 };
 
-export const predictRate = async ({ category, experience_level, skills, description }) => {
+export const predictRate = async ({ 
+  category, 
+  experience_level, 
+  skills, 
+  description,
+  country,
+  client_rating,
+  client_review_count 
+}) => {
   const response = await api.post('/api/predict', {
     category,
     experience_level: EXPERIENCE_MAP[experience_level] || experience_level,
-    skills,
+    skills, 
     description,
+    country,
+    client_rating: Number(client_rating) || 0.0,
+    client_review_count: Number(client_review_count) || 0
   });
   return response.data;
 };

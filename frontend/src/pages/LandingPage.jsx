@@ -24,9 +24,6 @@ import number1Img from "../assets/bigclay/number1.png";
 import number2Img from "../assets/bigclay/number2.png";
 import number3Img from "../assets/bigclay/number3.png";
 
-
- 
-
 import { hero, stats, howItWorks } from "../data/constants";
 
 const stepImages = [expertImg, laptopImg, coinImg];
@@ -104,8 +101,6 @@ const HowItWorksAccordion = () => {
       <div className="bg-white rounded-4xl border-5 border-slate-100 shadow-xs p-5 md:p-8">
         <div className="grid md:grid-cols-[1.06fr_0.94fr] gap-8 md:gap-10 items-center">
           <div>
- 
-
             <div className="space-y-2">
               {howItWorks.steps.map((step, index) => {
                 const isOpen = activeStep === index;
@@ -178,7 +173,8 @@ const HowItWorksAccordion = () => {
   );
 };
 
-const LandingPage = ({ onStart }) => {
+// 🌟 Menambahkan props errorMessage
+const LandingPage = ({ onStart, errorMessage }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -231,6 +227,12 @@ const LandingPage = ({ onStart }) => {
               defaultValue={hero.search_value}
               onSubmit={onStart}
             />
+            {/* 🌟 Pesan error inline tampil manis di sini */}
+            {errorMessage && (
+              <p className="text-red-500 text-sm font-semibold mt-3 text-center animate-pulse">
+                ⚠️ {errorMessage}
+              </p>
+            )}
           </div>
 
           <div className="mb-8">
@@ -270,8 +272,6 @@ const LandingPage = ({ onStart }) => {
       {/* ── SOLUTION ── */}
       <RevealSection className="w-full max-w-5xl mx-auto px-4 py-16">
         <div className="relative">
-        
-
           <div id="manfaat" className="grid md:grid-cols-2 gap-8 items-center md:items-stretch">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Yang kamu dapat setelah pakai gigvalue</h2>
