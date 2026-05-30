@@ -7,7 +7,7 @@ import stockupImg from "../assets/bigclay/stockup.png";
 
 const BRAND = "#83AA3E";
 const BRAND_LIGHT = "#f0f7e0";
-const KURS_USD_TO_IDR = 16000; 
+const KURS_USD_TO_IDR = 17000; 
 
 const SKILL_CAPITALIZATION_MAP = {
   "javascript": "JavaScript",
