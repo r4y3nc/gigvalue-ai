@@ -168,16 +168,7 @@ def predict_hourly_rate(
     raw_skills = get_skill_recommendations(skills, description, experience)
     mapped_skills = [s["skill"].title() if isinstance(s, dict) else str(s).title() for s in raw_skills]
 
-    raw_jobs = get_job_suggestions(detected_role)
-    mapped_jobs = [
-        {
-            "title": job,
-            "tags": [detected_role],
-            "rate": rate_range_str,
-            "type": "Rekomendasi AI"
-        }
-        for job in raw_jobs
-    ]
+    mapped_jobs = get_job_suggestions(detected_role)
 
     return {
         "status": "success",
