@@ -2,30 +2,101 @@ import { Search, ArrowRight } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 const HARDCODED_ROLES = [
+  // --- IT & Software Development ---
   "Web Developer",
+  "Frontend Developer",
+  "Backend Developer",
+  "Full Stack Developer",
+  "Mobile Developer",
+  "iOS Developer",
+  "Android Developer",
+  "Software Engineer",
+  "Software Architect",
+  "QA Tester",
+  "Game Developer",
+  "Embedded Systems Engineer",
+
+  // --- Data, AI & Web3 ---
   "Data Scientist",
   "Data Analyst",
-  "Mobile Developer",
-  "Cloud Engineer",
-  "DevOps Engineer",
-  "Designer",
-  "Creative Specialist",
-  "Digital Marketer",
+  "Data Engineer",
+  "Business Intelligence Analyst",
   "AI Engineer",
   "Machine Learning Engineer",
-  "Game Developer",
+  "Prompt Engineer",
   "Blockchain Developer",
   "Web3 Developer",
-  "Finance Specialist",
-  "Accountant",
-  "Writer",
-  "Content Creator",
+  "Smart Contract Developer",
+
+  // --- Cloud, Infrastructure & Security ---
+  "Cloud Engineer",
+  "DevOps Engineer",
+  "System Administrator",
+  "Database Administrator",
+  "Cybersecurity Specialist",
+  "Network Engineer",
+  "IT Support Specialist",
+
+  // --- Design & Creative ---
+  "Designer",
+  "UI/UX Designer",
+  "Graphic Designer",
+  "Motion Graphics Designer",
+  "Illustrator",
+  "Video Editor",
+  "Animator",
+  "3D Artist",
+  "Art Director",
+  "Creative Specialist",
+  "Sound Designer",
+
+  // --- Marketing & Sales ---
+  "Digital Marketer",
+  "SEO Specialist",
+  "SEM / PPC Specialist",
+  "Social Media Manager",
+  "Email Marketing Specialist",
+  "Growth Hacker",
+  "Content Strategist",
   "Sales Specialist",
   "Business Developer",
+  "Lead Generation Specialist",
+
+  // --- Writing & Translation ---
+  "Writer",
+  "Content Creator",
+  "Copywriter",
+  "Technical Writer",
+  "Ghostwriter",
+  "Copy Editor",
+  "Translator",
+  "Transcriptionist",
+
+  // --- Business, Finance & HR ---
+  "Project Manager",
+  "Product Manager",
+  "Scrum Master",
+  "Finance Specialist",
+  "Accountant",
+  "Financial Analyst",
+  "Bookkeeper",
+  "Business Consultant",
+  "HR Specialist",
+  "Recruiter",
+
+  // --- Admin & Customer Support ---
+  "Virtual Assistant",
   "Data Entry Specialist",
-  "Researcher",
   "Customer Service Representative",
-  "Cybersecurity Specialist"
+  "Technical Support Specialist",
+  "E-commerce Manager",
+
+  // --- Miscellaneous ---
+  "Researcher",
+  "Market Researcher",
+  "Legal Advisor",
+  "Paralegal",
+  "Instructional Designer"
 ];
 
 const HeroSearchBar = ({
