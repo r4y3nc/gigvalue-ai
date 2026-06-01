@@ -14,7 +14,7 @@ export const resultData = {
     confidence_label: "Tingkat Keyakinan",
     confidence_info: {
       percentage: "85%",
-      data_source: "Analisis pola tarif freelancer Upwork",
+      data_source: "Analisis data freelancer Upwork",
       status_label: "Sangat Realistis",
     },
     avatar_initials: ["U", "F", "D"],
@@ -78,7 +78,7 @@ export const allSkills = ["Python", "TensorFlow", "SQL", "Statistics", "NLP", "N
 // ─── Loading page ─────────────────────────────────────────────────────────────
 export const loadingSteps = [
   "Membaca profil keahlian kamu...",
-  "Menganalisis pola tarif freelancer Upwork...",
+  "Menganalisis data freelancer Upwork...",
   "Menghitung estimasi tarif yang realistis...",
   "Menyiapkan rekomendasimu...",
 ];
@@ -90,7 +90,7 @@ export const hero = {
   heading_2: "wajar kamu",
   heading_3: "di pasar global, dalam",
   heading_highlight_2: "hitungan detik.",
-  subheading: "Masukkan peran kamu, dan kami prediksi tarif paling kompetitif berdasarkan analisis pola tarif freelancer Upwork.",
+  subheading: "Masukkan peran kamu, dan kami prediksi tarif paling kompetitif berdasarkan analisis data freelancer Upwork.",
   search_placeholder: "Frontend Developer, UI/UX, Backend Developer",
   search_value: "",
   cta_button: "Mulai",
@@ -102,8 +102,8 @@ export const stats = {
   section_title: "Tarif akurat, hasil cepat.",
   cards: [
     {
-      title: "Analisis pola tarif freelancer Upwork",
-      desc: "Sistem kami memetakan pola tarif dari profil freelancer dengan peran dan kombinasi skill yang serupa, lalu merangkumnya menjadi insight relevan yang siap kamu gunakan.",
+      title: "Analisis data freelancer Upwork",
+      desc: "Sistem kami memetakan data dari profil freelancer dengan peran dan kombinasi skill yang serupa, lalu merangkumnya menjadi insight relevan yang siap kamu gunakan.",
       alt: "Ilustrasi data Upwork",
     },
     {
@@ -165,10 +165,10 @@ export const ctaSection = {
   badge: "Gratis. Tanpa daftar.",
   title_1: "Kamu sebenarnya worth",
   title_highlight: "berapa di pasar?",
-  desc: "Jangan tebak-tebakan soal tarif. Biarkan hasil analisis pola tarif freelancer Upwork yang jawab — dalam hitungan detik, bukan minggu.",
+  desc: "Jangan tebak-tebakan soal tarif. Biarkan hasil analisis data freelancer Upwork yang jawab — dalam hitungan detik, bukan minggu.",
   search_placeholder: "Coba: frontend developer, UI/UX, backend developer...",
   cta_button: "Mulai",
-  social_proof: "Berdasarkan analisis pola tarif freelancer Upwork",
+  social_proof: "Berdasarkan analisis data freelancer Upwork",
 };
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
