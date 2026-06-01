@@ -7,68 +7,6 @@ import stockupImg from "../assets/bigclay/stockup.png";
 
 const BRAND = "#83AA3E";
 const BRAND_LIGHT = "#f0f7e0";
-const KURS_USD_TO_IDR = 17000; 
-
-const SKILL_CAPITALIZATION_MAP = {
-  "javascript": "JavaScript",
-  "html": "HTML",
-  "css": "CSS",
-  "php": "PHP",
-  "sql": "SQL",
-  "wordpress": "WordPress",
-  "shopify": "Shopify",
-  "woocommerce": "WooCommerce",
-  "typescript": "TypeScript",
-  "next.js": "Next.js",
-  "node.js": "Node.js",
-  "html5": "HTML5",
-  "numpy": "NumPy",
-  "tensorflow": "TensorFlow",
-  "nlp": "NLP",
-  "etl": "ETL",
-  "bigquery": "BigQuery",
-  "power bi": "Power BI",
-  "ios": "iOS",
-  "aws": "AWS",
-  "amazon web services": "Amazon Web Services",
-  "devops": "DevOps",
-  "api": "API",
-  "restful api": "RESTful API",
-  "ui design": "UI Design",
-  "ux design": "UX Design",
-  "seo": "SEO",
-  "seo writing": "SEO Writing",
-  "gpt": "GPT",
-  "llm": "LLM",
-  "chatgpt": "ChatGPT",
-  "generative ai": "Generative AI",
-  "nft": "NFT",
-  "web3": "Web3",
-  "defi": "DeFi",
-  "quickbooks": "QuickBooks",
-};
-
-const formatToIDR = (rateInput) => {
-  if (!rateInput) return "Rp 0";
-
-  const formatRp = (val) => `Rp ${val.toLocaleString("id-ID")}`;
-  const roundThousands = (val) => Math.round((Number(val) * KURS_USD_TO_IDR) / 1000) * 1000;
-
-  if (typeof rateInput === "number") {
-    return formatRp(roundThousands(rateInput));
-  }
-
-  if (typeof rateInput === "string") {
-    const numbers = rateInput.match(/\d+(\.\d+)?/g);
-    if (numbers && numbers.length >= 2) {
-      return `${formatRp(roundThousands(numbers[0]))} - ${formatRp(roundThousands(numbers[1]))}`;
-    } else if (numbers && numbers.length === 1) {
-      return formatRp(roundThousands(numbers[0]));
-    }
-  }
-
-  return "Rp 0";
-};
 
 const getConfidenceTone = (percentage) => {
   const score = Number(percentage) || 0;
@@ -90,18 +28,12 @@ const ResultPage = ({ result, onReset, profile }) => {
 
   const payload = result.data || result;
 
-  const predictedRate = payload.predicted_rate || 0;       
-  const rateRange = payload.rate_range || "";              
+  const predictedRate = payload.predicted_rate || "Rp 0";       
+  const rateRange = payload.rate_range || "Rp 0 - Rp 0";              
   const confidenceScore = payload.confidence || 0;         
   const insightAi = payload.rating_description || null;    
   const jobsList = payload.job_suggestions || [];          
-
-  const rawSkillRecommendations = payload.skill_recommendations || [];
-  
-  const skillUpList = rawSkillRecommendations.map(skill => {
-    const cleanKey = skill.trim().toLowerCase();
-    return SKILL_CAPITALIZATION_MAP[cleanKey] || skill;
-  });
+  const skillUpList = payload.skill_recommendations || [];
 
   return (
     <>
@@ -130,7 +62,7 @@ const ResultPage = ({ result, onReset, profile }) => {
         </div>
 
         <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
-          Tarif kamu sebagai <span className="text-brand">{profile.role || "Freelancer"}</span>
+          Tarif kamu sebagai <span className="text-brand" style={{ color: BRAND }}>{profile.role || "Freelancer"}</span>
         </h1>
         <p className="text-slate-500 leading-relaxed text-base mb-8">
           {resultData.page_header.description}
@@ -149,7 +81,7 @@ const ResultPage = ({ result, onReset, profile }) => {
 
         <div className="w-full flex flex-col items-center pt-8 text-center">
           <p className="text-sm font-medium text-slate-400 mb-6">
-            {resultData.footer.disclaimer_text}
+            {resultData.footer?.disclaimer_text || "Estimasi tarif ini dibuat berdasarkan tren data Upwork."}
           </p>
           <button
             onClick={onReset}
@@ -158,7 +90,7 @@ const ResultPage = ({ result, onReset, profile }) => {
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#6a8f2f")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
           >
-            {resultData.footer.action_button}
+            {resultData.footer?.action_button || "Mulai Ulang Analisis"}
           </button>
         </div>
       </motion.div>
@@ -170,12 +102,7 @@ const ResultPage = ({ result, onReset, profile }) => {
 const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
   const confidenceTone = getConfidenceTone(confidence);
   
-  const formattedRange = formatToIDR(rateRange); 
-  const exactPredictedIDR = formatToIDR(predictedRate);
-
-  const cleanInsightDetail = insight?.detail
-    ? insight.detail.replace(/\$\d+(\.\d+)?(\s*\/jam|\/hr)?/gi, `${exactPredictedIDR}/jam`)
-    : "";
+  const cleanInsightDetail = insight?.detail || "";
 
   return (
     <div className="rounded-2xl border-5 border-slate-100 bg-white shadow-xs mb-4 overflow-hidden">
@@ -195,7 +122,7 @@ const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
               </span>
               <div className="flex items-baseline gap-1.5 flex-wrap">
                 <span className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {exactPredictedIDR}
+                  {predictedRate}
                 </span>
                 <span className="text-slate-400 font-semibold text-sm md:text-base">
                   {resultData.rate_recommendation.price_unit}
@@ -209,7 +136,7 @@ const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
               </span>
               <div className="flex items-baseline gap-1.5 flex-wrap">
                 <span className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {formattedRange}
+                  {rateRange}
                 </span>
                 <span className="text-slate-400 font-semibold text-sm md:text-base">
                   {resultData.rate_recommendation.price_unit}
@@ -259,18 +186,8 @@ const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
         </div>
 
         <div className="flex items-start sm:items-center gap-3 flex-col sm:flex-row bg-slate-50/50 p-2.5 rounded-xl border border-dashed border-slate-100">
-          <div className="flex -space-x-2 shrink-0">
-            {resultData.rate_recommendation.avatar_initials.map((init, i) => (
-              <div
-                key={i}
-                className="w-7 h-7 rounded-full bg-gradient-to-br from-slate-300 to-slate-400 border-2 border-white text-[11px] flex items-center justify-center text-white font-black"
-              >
-                {init}
-              </div>
-            ))}
-          </div>
           <div className="text-xs font-semibold text-slate-400 leading-tight">
-            <span>{resultData.rate_recommendation.based_on_prefix} 2jt+ pengguna aktif Upwork </span>
+            <span>{resultData.rate_recommendation.based_on_prefix} analisis pola tarif freelancer Upwork </span>
           </div>
         </div>
       </div>
@@ -321,8 +238,7 @@ const JobsList = ({ jobs }) => (
     <div className="px-5 py-2">
       {jobs.length > 0 ? (
         jobs.map((job, i) => {
-          const jobRateRaw = job.rate || "0";
-          const formattedJobRate = formatToIDR(jobRateRaw);
+          const jobRateRaw = job.rate || "N/A"; 
 
           return (
             <div
@@ -344,7 +260,7 @@ const JobsList = ({ jobs }) => (
               </div>
               <div className="shrink-0 text-right">
                 <span className="font-extrabold text-slate-900 text-sm block">
-                  {formattedJobRate}
+                  {jobRateRaw}
                 </span>
                 <span className="text-slate-400 text-xs font-medium">
                   {job.type || "Hourly"}

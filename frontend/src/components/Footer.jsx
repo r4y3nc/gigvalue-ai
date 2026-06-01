@@ -26,14 +26,6 @@ const Footer = ({ onStart }) => (
         <p className="text-slate-600 text-base md:text-lg max-w-lg text-center leading-relaxed">
           {ctaSection.desc}
         </p>
-        <div className="w-full max-w-xl">
-          <HeroSearchBar
-            placeholder={ctaSection.search_placeholder}
-            buttonLabel={ctaSection.cta_button}
-            size="md"
-            onSubmit={onStart}
-          />
-        </div>
     
       </div>
 

@@ -17,7 +17,7 @@ const CTASection = ({ onStart }) => (
         {ctaSection.desc}
       </p>
 
-      {/* Shared search bar — same as hero */}
+      {/* Shared search bar */}
       <div className="relative z-10 w-full max-w-2xl">
         <HeroSearchBar
           placeholder={ctaSection.search_placeholder}

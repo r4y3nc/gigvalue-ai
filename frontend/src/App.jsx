@@ -16,7 +16,6 @@ export default function App() {
   const [step, setStep] = useState(0);
   const { result, predict, reset, loading, error } = usePrediction();
 
-  // 🌟 State local untuk menampung pesan error validasi secara modern
   const [validationError, setValidationError] = useState("");
 
   useEffect(() => {
@@ -25,7 +24,6 @@ export default function App() {
     }
   }, [result]);
 
-  // 🌟 Reset error setiap kali user berpindah halaman/step
   useEffect(() => {
     setValidationError("");
   }, [step]);
@@ -89,7 +87,6 @@ export default function App() {
     setStep(0);
   };
 
-  // 🌟 Validasi Step 0 (Landing Page)
   const handleStart = (roleValue) => {
     const nextRole = (roleValue || "").trim();
     
@@ -112,7 +109,7 @@ export default function App() {
             <LandingPage 
               key="step-0" 
               onStart={handleStart} 
-              errorMessage={validationError} // ⬅️ Oper ke LandingPage
+              errorMessage={validationError}
             />
           )}
           {step === 1 && (
@@ -141,7 +138,7 @@ export default function App() {
               key="step-3"
               profile={profile}
               setProfile={setProfile}
-              errorMessage={validationError} // ⬅️ Oper ke ProfileDescPage
+              errorMessage={validationError}
               onNext={() => {
                 const textLength = (profile.profileDesc || "").trim().length;
                 if (textLength < 20) {

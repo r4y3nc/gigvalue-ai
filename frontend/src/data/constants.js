@@ -4,7 +4,7 @@ export const resultData = {
     status_badge: "Analisis selesai",
     title: "Tarif kamu sebagai Data Scientist",
     description:
-      "Ini dia estimasi tarif kamu berdasarkan data pasar nyata. Kita juga kasih tahu skill apa yang bisa naikkin tarif kamu, plus beberapa lowongan relevan langsung dari Upwork.",
+      "Ini dia estimasi tarif kamu berdasarkan data pasar nyata. Kita juga kasih tahu skill apa yang bisa naikkin tarif kamu.",
   },
   rate_recommendation: {
     title: "Estimasi Tarif Kamu",
@@ -14,7 +14,7 @@ export const resultData = {
     confidence_label: "Tingkat Keyakinan",
     confidence_info: {
       percentage: "85%",
-      data_source: "2jt+ pengguna aktif Upwork",
+      data_source: "Analisis pola tarif freelancer Upwork",
       status_label: "Sangat Realistis",
     },
     avatar_initials: ["U", "F", "D"],
@@ -78,7 +78,7 @@ export const allSkills = ["Python", "TensorFlow", "SQL", "Statistics", "NLP", "N
 // ─── Loading page ─────────────────────────────────────────────────────────────
 export const loadingSteps = [
   "Membaca profil keahlian kamu...",
-  "Mencocokkan dengan data jutaan freelancer Upwork...",
+  "Menganalisis pola tarif freelancer Upwork...",
   "Menghitung estimasi tarif yang realistis...",
   "Menyiapkan rekomendasimu...",
 ];
@@ -90,11 +90,11 @@ export const hero = {
   heading_2: "wajar kamu",
   heading_3: "di pasar global, dalam",
   heading_highlight_2: "hitungan detik.",
-  subheading: "Masukkan peran kamu, dan kami prediksi tarif paling kompetitif berdasarkan jutaan data freelancer aktif.",
+  subheading: "Masukkan peran kamu, dan kami prediksi tarif paling kompetitif berdasarkan analisis pola tarif freelancer Upwork.",
   search_placeholder: "Frontend Developer, UI/UX, Backend Developer",
   search_value: "",
   cta_button: "Mulai",
-  data_badge: "Data powered by Upwork",
+  data_badge: "Based on Upwork Freelance Data",
 };
 
 // ─── Landing page — stats (showcase cards) ───────────────────────────────────
@@ -102,8 +102,8 @@ export const stats = {
   section_title: "Tarif akurat, hasil cepat.",
   cards: [
     {
-      title: "5jt+ profil Upwork dianalisis",
-      desc: "Kami ambil pola tarif dari jutaan freelancer dengan peran dan skill serupa, terus rangkum jadi insight yang bisa langsung kamu pakai.",
+      title: "Analisis pola tarif freelancer Upwork",
+      desc: "Sistem kami memetakan pola tarif dari profil freelancer dengan peran dan kombinasi skill yang serupa, lalu merangkumnya menjadi insight relevan yang siap kamu gunakan.",
       alt: "Ilustrasi data Upwork",
     },
     {
@@ -145,7 +145,7 @@ export const howItWorks = {
     {
       number: "03",
       title: "Langsung dapat estimasi tarifmu",
-      desc: "GigValue proses datamu dan kasih range harga lengkap dengan confidence score. Bonus: rekomendasi skill dan lowongan terkait dari Upwork.",
+      desc: "GigValue proses datamu dan kasih range harga lengkap dengan confidence score. Bonus: rekomendasi skill hasil analisis data Upwork.",
       alt: "Coin illustration",
     },
   ],
@@ -165,10 +165,10 @@ export const ctaSection = {
   badge: "Gratis. Tanpa daftar.",
   title_1: "Kamu sebenarnya worth",
   title_highlight: "berapa di pasar?",
-  desc: "Jangan tebak-tebakan soal tarif. Biarkan data dari jutaan freelancer Upwork yang jawab — dalam detik, bukan minggu.",
+  desc: "Jangan tebak-tebakan soal tarif. Biarkan hasil analisis pola tarif freelancer Upwork yang jawab — dalam hitungan detik, bukan minggu.",
   search_placeholder: "Coba: frontend developer, UI/UX, backend developer...",
   cta_button: "Mulai",
-  social_proof: "Berdasarkan 2jt+ pengguna aktif Upwork",
+  social_proof: "Berdasarkan analisis pola tarif freelancer Upwork",
 };
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
@@ -177,11 +177,11 @@ export const faqData = {
   title: "Ada yang mau ditanyain?",
   desc: "Kumpulan pertanyaan yang paling sering ditanyain soal GigValue AI.",
   items: [
-    { q: "Gimana GigValue ngitung estimasi tarifnya?", a: "Kami pakai model machine learning yang dilatih dari jutaan data profil dan tarif freelancer di Upwork. Hasilnya dikombinasikan sama level pengalaman dan skill yang kamu pilih buat kasih range yang relevan sama pasar sekarang." },
+    { q: "Gimana GigValue ngitung estimasi tarifnya?", a: "Kami menggunakan model deep learning yang dilatih khusus berbasis data profil dan tarif freelancer Upwork. Hasilnya dikombinasikan dengan level pengalaman serta skill yang kamu pilih untuk memberikan rentang tarif yang paling relevan dengan kondisi pasar saat ini." },
     { q: "Seberapa akurat estimasi tarifnya?", a: "Estimasi kami dilengkapi confidence score biar kamu tahu seberapa yakin modelnya. Semakin spesifik skill yang kamu pilih, semakin akurat hasilnya. Kami rekomendasikan pakai ini sebagai referensi awal, bukan angka mati." },
     { q: "Apa itu confidence score?", a: "Confidence score itu indikator seberapa kuat data yang mendukung estimasi tarifmu. Angka 85% misalnya, artinya model cukup yakin range itu realistis berdasarkan data yang tersedia." },
     { q: "Apakah GigValue bisa dipakai buat semua bidang IT?", a: "Sekarang GigValue fokus ke peran-peran yang paling umum di Upwork — pengembangan web, mobile, desain, data, dan AI. Kami terus nambah cakupannya secara berkala." },
-    { q: "Data darimana yang GigValue pakai?", a: "Kami menganalisis data dari profil dan posting pekerjaan di Upwork, mencakup 2 juta+ pengguna aktif. Data diperbarui secara berkala biar estimasinya tetap relevan sama kondisi pasar terkini." },
+    { q: "Data darimana yang GigValue pakai?", a: "Kami menganalisis data dari profil dan posting pekerjaan di Upwork. Data diperbarui secara berkala biar estimasinya tetap relevan sama kondisi pasar terkini." },
     { q: "Apakah GigValue gratis?", a: "Ya, sepenuhnya gratis. Kamu bisa cek estimasi tarif, lihat insight pasar, dan dapat rekomendasi skill tanpa perlu daftar atau masukin info pembayaran apapun." },
     { q: "Kenapa ada rekomendasi skill di hasil prediksi?", a: "Karena tarif kamu bisa naik kalau kamu kuasai skill yang lagi banyak dicari. Rekomendasi ini berdasarkan tren permintaan pasar, bukan sekadar daftar skill random." },
     { q: "Apakah data saya disimpan?", a: "Kami tidak menyimpan informasi pribadi kamu. Input yang kamu masukkan hanya digunakan untuk menghasilkan estimasi dan tidak diteruskan ke pihak lain." },

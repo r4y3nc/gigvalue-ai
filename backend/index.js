@@ -10,20 +10,18 @@ const routes = require('./src/routes/index');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
+app.set('trust proxy', 1);
+
 app.use(corsMiddleware);
 app.use(express.json());
 app.use(globalLimiter);
 
-// Routes
 app.use('/api', routes);
 
-// Health check
 app.get('/', (req, res) => {
   res.json({ message: 'GigValue AI Backend is running' });
 });
 
-// Error handler
 app.use(errorHandler);
 
 app.listen(PORT, () => {

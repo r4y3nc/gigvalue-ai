@@ -7,7 +7,6 @@ const api = axios.create({
   },
 });
 
-// Map experience level dari frontend ke format FastAPI
 const EXPERIENCE_MAP = {
   beginner: 'Entry level',
   intermediate: 'Intermediate',
@@ -40,13 +39,8 @@ export const getSkills = async () => {
   return response.data;
 };
 
-export const getSuggestions = async () => {
-  const response = await api.get('/api/suggestions');
-  return response.data;
-};
-
-export const getSuggestionsByRole = async (role) => {
-  const response = await api.get(`/api/suggestions/${encodeURIComponent(role)}`);
+export const getRoles = async () => {
+  const response = await api.get('/api/roles');
   return response.data;
 };
 

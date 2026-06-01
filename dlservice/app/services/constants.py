@@ -45,3 +45,18 @@ HIGH_VALUE_SKILLS = [
     "cybersecurity","penetration testing","ethical hacking",
     "consultant","strategy","saas","technical leadership",
 ]
+
+SKILL_REASONS = {
+    "python": ("Python adalah bahasa #1 untuk data science, AI, dan backend.", "Sangat Tinggi"),
+    "machine learning": ("ML skill paling dicari. Tarif ML freelancer 40-60% lebih tinggi rata-rata.", "Sangat Tinggi"),
+    "aws": ("AWS meningkatkan tarif rata-rata $15-25/jam. Sertifikasi AWS sangat dihargai.", "Sangat Tinggi"),
+    "docker": ("Containerization adalah standar industri modern.", "Tinggi"),
+    "kubernetes": ("K8s skill langka tapi demand tinggi — membuka peluang DevOps senior.", "Tinggi"),
+    "react": ("React adalah framework frontend paling populer saat ini.", "Sangat Tinggi"),
+    "typescript": ("TypeScript menjadi standar baru JavaScript di industri.", "Tinggi"),
+    "next.js": ("Next.js fullstack capability yang sangat dicari klien global.", "Tinggi"),
+    "tensorflow": ("TensorFlow/Keras wajib untuk ML Engineer. Demand AI sangat tinggi.", "Sangat Tinggi"),
+    "postgresql": ("PostgreSQL adalah database relasional paling populer.", "Tinggi"),
+    "llm": ("LLM development skill terpanas 2024-2025 sejak ChatGPT.", "Sangat Tinggi"),
+    "flutter": ("Flutter cross-platform mobile terpopuler. iOS dan Android sekaligus.", "Tinggi"),
+}

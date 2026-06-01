@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import ProgressBar from "../components/ui/ProgressBar";
 import { skillsPageData } from "../data/constants";
 import laptopImg from "../assets/bigclay/laptop.png";
+import { getSkills } from "../services/api";
 
 const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) => {
   const [availableSkills, setAvailableSkills] = useState([]);
@@ -17,14 +18,7 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
     const fetchSkills = async () => {
       try {
         setLoading(true);
-        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-        const res = await fetch(`${API_URL}/api/skills`, { signal });
-        
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
-        const dataJson = await res.json();
+        const dataJson = await getSkills();
         
         if (dataJson.success && dataJson.data?.skills) {
           setAvailableSkills(dataJson.data.skills);
@@ -85,7 +79,6 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
 
   const displayedSkills = getDisplayedSkills();
 
-  // Tombol aktif jika pilih skill utama minimal 1 ATAU input skill tambahan diisi
   const canContinue = skills.length > 0 || (profile?.extraSkills || "").trim() !== "";
 
   return (
@@ -183,7 +176,6 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
           )}
         </div>
 
-        {/* Kolom Input Skill Tambahan */}
         <label className="flex flex-col gap-2 text-sm font-semibold text-slate-700 mb-16">
           {skillsPageData.extra_label}
           <input

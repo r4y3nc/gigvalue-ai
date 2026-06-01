@@ -3,7 +3,6 @@ import { motion } from "motion/react";
 import ProgressBar from "../components/ui/ProgressBar";
 import { profileDescPageData } from "../data/constants";
 
-// 🌟 Menambahkan props errorMessage
 const ProfileDescPage = ({ onNext, onBack, profile, setProfile, errorMessage }) => {
   const canContinue = profile.profileDesc.trim().length > 0;
 
@@ -42,10 +41,9 @@ const ProfileDescPage = ({ onNext, onBack, profile, setProfile, errorMessage }) 
             className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-4"
             style={{ "--tw-ring-color": "#83AA3E20" }}
           />
-          {/* 🌟 Pesan minimal 20 karakter tampil elegan tepat di bawah teks area */}
           {errorMessage && (
             <p className="text-red-500 text-sm font-semibold mt-1">
-              ⚠️ {errorMessage}
+              {errorMessage}
             </p>
           )}
         </label>

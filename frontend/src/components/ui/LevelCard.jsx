@@ -1,4 +1,3 @@
-// LevelCard — uses PNG image, per-card selection border color
 const LevelCard = ({ title, desc, img, alt, selected, onClick, borderColor }) => (
   <div
     onClick={onClick}

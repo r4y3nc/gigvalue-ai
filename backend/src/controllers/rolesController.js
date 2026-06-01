@@ -1,44 +1,44 @@
 const supabase = require('../services/supabaseClient');
-const { FALLBACK_SKILLS, CACHE_DURATION } = require('../data/constants');
+const { FALLBACK_ROLES, CACHE_DURATION } = require('../data/constants');
 
-let cachedSkills = null;
+let cachedRoles = null;
 let lastFetchTime = 0;
 
-const getSkills = async (req, res, next) => {
+const getRoles = async (req, res, next) => {
   try {
     const now = Date.now();
 
-    if (cachedSkills && (now - lastFetchTime < CACHE_DURATION)) {
+    if (cachedRoles && (now - lastFetchTime < CACHE_DURATION)) {
       return res.json({
         success: true,
-        data: { skills: cachedSkills }
+        data: { roles: cachedRoles }
       });
     }
 
     const { data, error } = await supabase
-      .from('skills')
+      .from('roles')
       .select('name');
 
     if (error) {
       console.warn('[Supabase Warning] Menggunakan data fallback lokal karena:', error.message);
       return res.json({
         success: true,
-        data: { skills: FALLBACK_SKILLS }
+        data: { roles: FALLBACK_ROLES }
       });
     }
 
-    const formattedSkills = data.map(item => item.name);
+    const formattedRoles = data.map(item => item.name);
 
-    cachedSkills = formattedSkills;
+    cachedRoles = formattedRoles;
     lastFetchTime = now;
 
     res.json({
       success: true,
-      data: { skills: cachedSkills }
+      data: { roles: cachedRoles }
     });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { getSkills };
+module.exports = { getRoles };

@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from app.core.model_manager import model_manager
-from app.services.constants import ROLE_RULES, JOB_SUGGESTIONS, HIGH_VALUE_SKILLS
+from app.services.constants import ROLE_RULES, JOB_SUGGESTIONS, HIGH_VALUE_SKILLS, SKILL_REASONS
 
 def encode_cat(value: str, vocab: list) -> np.ndarray:
     lookup = tf.keras.layers.StringLookup(
@@ -75,21 +75,6 @@ def get_skill_recommendations(skills: str, description: str, experience: str, to
     else:
         priority = ["docker", "kubernetes", "aws", "fastapi", "next.js", "graphql", "postgresql", "redis", "terraform", "ci/cd"]
 
-    SKILL_REASONS = {
-        "python": ("Python adalah bahasa #1 untuk data science, AI, dan backend.", "Sangat Tinggi"),
-        "machine learning": ("ML skill paling dicari. Tarif ML freelancer 40-60% lebih tinggi rata-rata.", "Sangat Tinggi"),
-        "aws": ("AWS meningkatkan tarif rata-rata $15-25/jam. Sertifikasi AWS sangat dihargai.", "Sangat Tinggi"),
-        "docker": ("Containerization adalah standar industri modern.", "Tinggi"),
-        "kubernetes": ("K8s skill langka tapi demand tinggi — membuka peluang DevOps senior.", "Tinggi"),
-        "react": ("React adalah framework frontend paling populer saat ini.", "Sangat Tinggi"),
-        "typescript": ("TypeScript menjadi standar baru JavaScript di industri.", "Tinggi"),
-        "next.js": ("Next.js fullstack capability yang sangat dicari klien global.", "Tinggi"),
-        "tensorflow": ("TensorFlow/Keras wajib untuk ML Engineer. Demand AI sangat tinggi.", "Sangat Tinggi"),
-        "postgresql": ("PostgreSQL adalah database relasional paling populer.", "Tinggi"),
-        "llm": ("LLM development skill terpanas 2024-2025 sejak ChatGPT.", "Sangat Tinggi"),
-        "flutter": ("Flutter cross-platform mobile terpopuler. iOS dan Android sekaligus.", "Tinggi"),
-    }
-
     pool = list(dict.fromkeys(priority + HIGH_VALUE_SKILLS))
     recs = []
     for skill in pool:
@@ -105,12 +90,12 @@ def get_job_suggestions(detected_role: str, top_n: int = 6) -> list:
     return JOB_SUGGESTIONS.get(detected_role, JOB_SUGGESTIONS["Other"])[:top_n]
 
 def predict_hourly_rate(
-    description: str,
-    skills: str = "",
-    category: str = "unknown",
-    country: str = "unknown",
-    experience: str = "unknown",
-    client_rating: float = 0.0,
+    description:         str,
+    skills:              str = "",
+    category:            str = "unknown",
+    country:             str = "unknown",
+    experience:          str = "unknown",
+    client_rating:       float = 0.0,
     client_review_count: int = 0,
 ) -> dict:
     if model_manager.model is None or model_manager.config is None:
@@ -171,15 +156,15 @@ def predict_hourly_rate(
     mapped_jobs = get_job_suggestions(detected_role)
 
     return {
-        "status": "success",
-        "predicted_rate_usd": round(rate_usd, 2),
-        "rate_range": rate_range_str,
-        "confidence": confidence_percentage,
-        "rating_description": get_rating_description(confidence_level, rate_usd),
+        "status":                "success",
+        "predicted_rate_usd":    round(rate_usd, 2),
+        "rate_range":            rate_range_str,
+        "confidence":            confidence_percentage,
+        "rating_description":    get_rating_description(confidence_level, rate_usd),
         "skill_recommendations": mapped_skills,
-        "job_suggestions": mapped_jobs,
-        "detected_role": detected_role,
-        "model": "Deep Learning (TensorFlow Functional API)",
-        "model_version": model_manager.config.get("model_version", "unknown"),
-        "note": "Prediksi berdasarkan data pasar Upwork.",
+        "job_suggestions":       mapped_jobs,
+        "detected_role":         detected_role,
+        "model":                 "Deep Learning (TensorFlow Functional API)",
+        "model_version":         model_manager.config.get("model_version", "unknown"),
+        "note":                  "Prediksi berdasarkan data pasar Upwork.",
     }

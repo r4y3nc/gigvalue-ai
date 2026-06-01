@@ -1,38 +1,43 @@
-const { body } = require('express-validator');
+const Joi = require('joi');
 
-const predictionValidator = [
-  body('category')
-    .notEmpty().withMessage('Category is required')
-    .isString().withMessage('Category must be a string')
-    .isLength({ min: 3 }).withMessage('Category must be at least 3 characters'),
+const predictionSchema = Joi.object({
+  category: Joi.string().min(3).required().messages({
+    'string.base': 'Category must be a string',
+    'string.empty': 'Category is required',
+    'string.min': 'Category must be at least 3 characters',
+    'any.required': 'Category is required'
+  }),
+  experience_level: Joi.string().required().messages({
+    'string.base': 'Experience level must be a string',
+    'string.empty': 'Experience level is required',
+    'any.required': 'Experience level is required'
+  }),
+  skills: Joi.array().items(Joi.string().messages({
+    'string.base': 'Each skill must be a string'
+  })).min(1).required().messages({
+    'array.base': 'Skills must be an array',
+    'array.min': 'Skills must be an array with at least 1 skill',
+    'any.required': 'Skills is required'
+  }),
+  description: Joi.string().min(20).required().messages({
+    'string.base': 'Description must be a string',
+    'string.empty': 'Description is required',
+    'string.min': 'Description must be at least 20 characters',
+    'any.required': 'Description is required'
+  }),
+  country: Joi.string().optional().messages({
+    'string.base': 'Country must be a string'
+  }),
+  client_rating: Joi.number().min(0).max(5).optional().messages({
+    'number.base': 'Client rating must be a number',
+    'number.min': 'Client rating must be between 0 and 5',
+    'number.max': 'Client rating must be between 0 and 5'
+  }),
+  client_review_count: Joi.number().integer().min(0).optional().messages({
+    'number.base': 'Client review count must be a positive integer',
+    'number.min': 'Client review count must be a positive integer',
+    'number.integer': 'Client review count must be a positive integer'
+  })
+}).options({ stripUnknown: true });
 
-  body('experience_level')
-    .notEmpty().withMessage('Experience level is required')
-    .isString().withMessage('Experience level must be a string'),
-
-  body('skills')
-    .notEmpty().withMessage('Skills is required')
-    .isArray({ min: 1 }).withMessage('Skills must be an array with at least 1 skill'),
-
-  body('skills.*')
-    .isString().withMessage('Each skill must be a string'),
-
-  body('description')
-    .notEmpty().withMessage('Description is required')
-    .isString().withMessage('Description must be a string')
-    .isLength({ min: 20 }).withMessage('Description must be at least 20 characters'),
-
-  body('country')
-    .optional()
-    .isString().withMessage('Country must be a string'),
-
-  body('client_rating')
-    .optional()
-    .isFloat({ min: 0, max: 5 }).withMessage('Client rating must be between 0 and 5'),
-
-  body('client_review_count')
-    .optional()
-    .isInt({ min: 0 }).withMessage('Client review count must be a positive integer'),
-];
-
-module.exports = predictionValidator;
+module.exports = predictionSchema;

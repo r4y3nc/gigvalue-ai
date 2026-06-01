@@ -1,5 +1,5 @@
 import { ArrowRight, ChevronDown, Lock } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import MarketInsights from "../components/MarketInsights";
 import TrendingMarquee from "../components/ui/TrendingMarquee";
@@ -25,6 +25,8 @@ import number2Img from "../assets/bigclay/number2.png";
 import number3Img from "../assets/bigclay/number3.png";
 
 import { hero, stats, howItWorks } from "../data/constants";
+import { getRoles } from "../services/api";
+import { FALLBACK_ROLES } from "../data/fallbackData";
 
 const stepImages = [expertImg, laptopImg, coinImg];
 const stepNumberImages = [number1Img, number2Img, number3Img];
@@ -173,8 +175,31 @@ const HowItWorksAccordion = () => {
   );
 };
 
-// 🌟 Menambahkan props errorMessage
 const LandingPage = ({ onStart, errorMessage }) => {
+  const [searchVal, setSearchVal] = useState("");
+  const [roles, setRoles] = useState([]);
+
+  useEffect(() => {
+    const fetchRolesData = async () => {
+      try {
+        const response = await getRoles();
+        if (response.success && response.data?.roles) {
+          setRoles(response.data.roles);
+        } else {
+          setRoles(FALLBACK_ROLES);
+        }
+      } catch (err) {
+        console.warn("Gagal mengambil roles dari API, menggunakan data fallback lokal.", err);
+        setRoles(FALLBACK_ROLES);
+      }
+    };
+    fetchRolesData();
+  }, []);
+
+  const handleSearch = (value) => {
+    onStart(value);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -226,11 +251,11 @@ const LandingPage = ({ onStart, errorMessage }) => {
               size="lg"
               defaultValue={hero.search_value}
               onSubmit={onStart}
+              roles={roles}
             />
-            {/* 🌟 Pesan error inline tampil manis di sini */}
             {errorMessage && (
               <p className="text-red-500 text-sm font-semibold mt-3 text-center animate-pulse">
-                ⚠️ {errorMessage}
+                {errorMessage}
               </p>
             )}
           </div>
@@ -329,7 +354,7 @@ const LandingPage = ({ onStart, errorMessage }) => {
         </div>
       </RevealSection>
 
-      {/* ── FOOTER (includes CTA + nav card on illustration) ── */}
+      {/* ── FOOTER ── */}
       <Footer onStart={onStart} />
     </motion.div>
   );
