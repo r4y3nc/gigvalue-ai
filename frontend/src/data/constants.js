@@ -281,12 +281,8 @@ export const profileDescPageData = {
 // ─── Detail opsional page ───────────────────────────────────────────────────
 export const optionalDetailsPageData = {
   back_label: "Kembali",
-  title: "Detail tambahan",
-  subtitle: "Opsional, membantu saran AI lebih akurat.",
-  achievement_label: "Pencapaian terbesar (opsional)",
-  achievement_placeholder: "Meningkatkan performa app 40%, sistem payment 10.000+ user...",
-  industry_label: "Target klien/industri (opsional)",
-  industry_placeholder: "Startup teknologi...",
+  title: "Target Tarif",
+  subtitle: "Beri tahu target tarif kamu biar rekomendasi skill-nya makin tepat sasaran.",
   rate_label: "Target tarif/jam (IDR) - untuk saran AI",
   next_button: "Selanjutnya",
 };
@@ -296,10 +292,6 @@ export const extraInfoPageData = {
   back_label: "Kembali",
   title: "Info tambahan",
   subtitle: "Opsional - meningkatkan akurasi.",
-  country_label: "Negara",
-  country_options: ["Indonesia", "United States", "Canada", "United Kingdom", "Australia"],
-  reviews_label: "Jumlah review diterima",
-  rating_label: "Rating klien (jika ada)",
   next_button: "Selanjutnya",
 };
 
