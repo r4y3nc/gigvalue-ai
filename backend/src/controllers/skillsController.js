@@ -1,4 +1,4 @@
-const supabase = require('../services/supabaseClient');
+const database = require('../services/databaseClient');
 const { FALLBACK_SKILLS, CACHE_DURATION } = require('../data/constants');
 
 let cachedSkills = null;
@@ -15,12 +15,12 @@ const getSkills = async (req, res, next) => {
       });
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await database
       .from('skills')
       .select('name');
 
     if (error) {
-      console.warn('[Supabase Warning] Menggunakan data fallback lokal karena:', error.message);
+      console.warn('[Database Warning] Menggunakan data fallback lokal karena:', error.message);
       return res.json({
         success: true,
         data: { skills: FALLBACK_SKILLS }

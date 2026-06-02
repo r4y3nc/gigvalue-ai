@@ -1,20 +1,20 @@
 const axios = require('axios');
 
 const healthCheck = async (req, res) => {
-    let mlStatus = 'unavailable';
+    let dlStatus = 'unavailable';
 
     try {
-        await axios.get(`${process.env.DL_SERVICE_URL}/health`);
-        mlStatus = 'available';
+        await axios.get(`${process.env.DLSERVICE_URL}/health`);
+        dlStatus = 'available';
     } catch {
-        mlStatus = 'unavailable';
+        dlStatus = 'unavailable';
     }
 
     res.json({
         success: true,
         data: {
             server: 'available',
-            dlService: mlStatus,
+            dlService: dlStatus,
             timestamp: new Date().toISOString(),
         },
     });

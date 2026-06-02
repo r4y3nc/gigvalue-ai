@@ -26,7 +26,6 @@ import number3Img from "../assets/bigclay/number3.png";
 
 import { hero, stats, howItWorks } from "../data/constants";
 import { getRoles } from "../services/api";
-import { FALLBACK_ROLES } from "../data/fallbackData";
 
 const stepImages = [expertImg, laptopImg, coinImg];
 const stepNumberImages = [number1Img, number2Img, number3Img];
@@ -185,12 +184,9 @@ const LandingPage = ({ onStart, errorMessage }) => {
         const response = await getRoles();
         if (response.success && response.data?.roles) {
           setRoles(response.data.roles);
-        } else {
-          setRoles(FALLBACK_ROLES);
         }
       } catch (err) {
         console.warn("Gagal mengambil roles dari API, menggunakan data fallback lokal.", err);
-        setRoles(FALLBACK_ROLES);
       }
     };
     fetchRolesData();

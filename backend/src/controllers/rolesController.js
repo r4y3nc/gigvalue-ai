@@ -1,4 +1,4 @@
-const supabase = require('../services/supabaseClient');
+const database = require('../services/databaseClient');
 const { FALLBACK_ROLES, CACHE_DURATION } = require('../data/constants');
 
 let cachedRoles = null;
@@ -15,12 +15,12 @@ const getRoles = async (req, res, next) => {
       });
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await database
       .from('roles')
       .select('name');
 
     if (error) {
-      console.warn('[Supabase Warning] Menggunakan data fallback lokal karena:', error.message);
+      console.warn('[Database Warning] Menggunakan data fallback lokal karena:', error.message);
       return res.json({
         success: true,
         data: { roles: FALLBACK_ROLES }

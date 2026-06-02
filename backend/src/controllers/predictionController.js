@@ -1,11 +1,9 @@
-// src/controllers/predictionController.js
-const mlService = require('../services/mlService');
-const supabase = require('../services/supabaseClient');
+const dlService = require('../services/dlService');
+const database = require('../services/databaseClient');
 const { formatSkillRecommendations } = require('../utils/skillFormatter');
 
 const KURS_USD_TO_IDR = 17000;
 
-// Helper untuk format teks mata uang Rupiah
 const formatToIDR = (usdAmount) => {
   const idr = Math.round((usdAmount * KURS_USD_TO_IDR) / 1000) * 1000;
   return "Rp " + idr.toLocaleString('id-ID');
@@ -31,7 +29,7 @@ const predict = async (req, res, next) => {
       client_review_count,
     } = req.body;
 
-    const result = await mlService.getPrediction({
+    const result = await dlService.getPrediction({
       category,
       experience_level,
       skills,
@@ -41,18 +39,13 @@ const predict = async (req, res, next) => {
       client_review_count,
     });
 
-    // 🌟 SOLUSI: Bulatkan nilai USD ke angka bulat terdekat dahulu (e.g., 19.88 menjadi 20)
-    // Ini menyamakan logika berpikir AI generator saat menulis teks deskripsi
     const nearestWholeUSD = Math.round(result.predicted_rate_usd); 
 
-    // Hitung nilai IDR berdasarkan angka USD yang sudah bulat manis
     const numericRateIDR = nearestWholeUSD * KURS_USD_TO_IDR;
     const formattedRateIDR = "Rp " + numericRateIDR.toLocaleString('id-ID');
     
-    // Konversi teks range pasar (e.g., "$15 - $25" -> "Rp 255.000 - Rp 425.000")
     const formattedRateRange = convertTextToIDR(result.rate_range);
 
-    // Membedah dan mengonversi teks di dalam Object rating_description secara aman
     const formattedDescription = { ...result.rating_description };
     if (formattedDescription.detail) {
       formattedDescription.detail = convertTextToIDR(formattedDescription.detail);
@@ -61,10 +54,9 @@ const predict = async (req, res, next) => {
       formattedDescription.headline = convertTextToIDR(formattedDescription.headline);
     }
 
-    // Rapikan kapitalisasi kata kunci skill rekomendasi AI di backend
     const finalizedSkillRecommendations = formatSkillRecommendations(result.skill_recommendations);
 
-    supabase
+    database
       .from('prediction_history')
       .insert({
         role: category,
@@ -80,15 +72,15 @@ const predict = async (req, res, next) => {
         skill_recommendations: finalizedSkillRecommendations
       })
       .then()
-      .catch((err) => console.error('[Supabase Insert Error]', err.message));
+      .catch((err) => console.error('[Database Insert Error]', err.message));
 
     res.json({
       success: true,
       data: {
-        predicted_rate: formattedRateIDR,       // 🌟 Sekarang bernilai "Rp 340.000"
+        predicted_rate: formattedRateIDR,
         rate_range: formattedRateRange,
         confidence: result.confidence,
-        rating_description: formattedDescription, // 🌟 Di dalam teks detail juga otomatis "Rp 340.000"
+        rating_description: formattedDescription,
         skill_recommendations: finalizedSkillRecommendations,
         job_suggestions: result.job_suggestions,
         detected_role: result.detected_role,

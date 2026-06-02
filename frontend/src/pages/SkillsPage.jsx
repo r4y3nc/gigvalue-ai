@@ -156,7 +156,7 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
             <div className="text-slate-400 text-sm italic">Memuat rekomendasi teknologi...</div>
           ) : displayedSkills.length === 0 ? (
             <div className="text-slate-400 text-sm italic">
-              Skill tidak ditemukan atau semua hasil pencarian sudah kamu pilih. Silakan ketik manual di bawah.
+              Skill tidak ditemukan. Silakan ketik manual di bawah.
             </div>
           ) : (
             displayedSkills.map((s) => {
