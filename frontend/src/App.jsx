@@ -6,7 +6,6 @@ import LandingPage from "./pages/LandingPage";
 import ExperiencePage from "./pages/ExperiencePage";
 import SkillsPage from "./pages/SkillsPage";
 import ProfileDescPage from "./pages/ProfileDescPage";
-import OptionalDetailsPage from "./pages/OptionalDetailsPage";
 import ExtraInfoPage from "./pages/ExtraInfoPage";
 import LoadingPage from "./pages/LoadingPage";
 import ResultPage from "./pages/ResultPage";
@@ -30,13 +29,11 @@ export default function App() {
 
   const [level, setLevel] = useState(null);
   const [skills, setSkills] = useState([]);
+  
   const initialProfile = {
     role: hero.search_value,
     extraSkills: "",
     profileDesc: "",
-    achievements: "",
-    targetIndustry: "",
-    targetRate: 0,
     country: "Indonesia",
     reviewCount: 0,
     rating: 0,
@@ -102,7 +99,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen text-slate-900 font-sans flex flex-col selection:bg-lime-200">
-      {step !== 7 && <Header onNavigate={handleNavigate} />}
+      {step !== 6 && <Header onNavigate={handleNavigate} />}
       <main className="flex-1 flex flex-col grow relative">
         <AnimatePresence mode="wait">
           {step === 0 && (
@@ -110,6 +107,7 @@ export default function App() {
               key="step-0" 
               onStart={handleStart} 
               errorMessage={validationError}
+              role={profile.role}
             />
           )}
           {step === 1 && (
@@ -152,17 +150,8 @@ export default function App() {
             />
           )}
           {step === 4 && (
-            <OptionalDetailsPage
-              key="step-4"
-              profile={profile}
-              setProfile={setProfile}
-              onNext={() => setStep(5)}
-              onBack={() => setStep(3)}
-            />
-          )}
-          {step === 5 && (
             <ExtraInfoPage
-              key="step-5"
+              key="step-4"
               profile={profile}
               setProfile={setProfile}
               onNext={() => {
@@ -171,41 +160,36 @@ export default function App() {
                   allSkills.push(profile.extraSkills.trim());
                 }
 
-                let finalDescription = profile.profileDesc || "";
-                if (profile.achievements && profile.achievements.trim() !== "") {
-                  finalDescription += `\n\nPencapaian Terbesar: ${profile.achievements.trim()}`;
-                }
-
                 predict({
                   category: profile.role || "unknown",
                   experience_level: level,
                   skills: allSkills,
-                  description: finalDescription,
+                  description: profile.profileDesc,
                   country: profile.country || "unknown",
                   client_rating: profile.rating || 0.0,
                   client_review_count: profile.reviewCount || 0,
                 });
 
-                setStep(6);
+                setStep(5);
               }}
-              onBack={() => setStep(4)}
+              onBack={() => setStep(3)}
             />
           )}
-          {step === 6 && (
+          {step === 5 && (
             <LoadingPage 
-              key="step-6" 
+              key="step-5" 
               isLoading={loading} 
               onComplete={() => {
                 if (error) {
                   setValidationError(`Gagal mengambil prediksi: ${error}`);
-                  setStep(5);
+                  setStep(4);
                 } else {
-                  setStep(7);
+                  setStep(6);
                 }
               }} 
             />
           )}
-          {step === 7 && <ResultPage key="step-7" result={result} onReset={resetAll} profile={profile} />}
+          {step === 6 && <ResultPage key="step-6" result={result} onReset={resetAll} profile={profile} />}
         </AnimatePresence>
       </main>
     </div>

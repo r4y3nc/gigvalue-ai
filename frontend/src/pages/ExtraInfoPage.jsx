@@ -12,11 +12,11 @@ const ExtraInfoPage = ({ onNext, onBack, profile, setProfile }) => (
   >
     <button
       onClick={onBack}
-      className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-10 w-fit self-start font-medium transition-colors"
+      className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-10 w-fit self-start font-medium transition-colors cursor-pointer"
     >
       <ArrowLeft className="w-4 h-4" /> {extraInfoPageData.back_label}
     </button>
-    <ProgressBar currentStep={5} />
+    <ProgressBar currentStep={4} />
 
     <div className="w-full max-w-3xl mx-auto">
       <div className="mb-8">
@@ -91,10 +91,10 @@ const ExtraInfoPage = ({ onNext, onBack, profile, setProfile }) => (
       </div>
     </div>
 
-    <div className="flex justify-end mt-auto mb-12">
+    <div className="flex justify-end mt-10 mb-12">
       <button
         onClick={onNext}
-        className="text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-lg"
+        className="text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
         style={{ backgroundColor: "#83AA3E" }}
         onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#6a8f2f")}
         onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#83AA3E")}

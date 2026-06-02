@@ -1,5 +1,5 @@
-const ProgressBar = ({ currentStep, totalSteps = 6 }) => (
-  <div className="flex gap-4 w-full max-w-4xl mb-12">
+const ProgressBar = ({ currentStep, totalSteps = 5 }) => (
+  <div className="flex gap-4 w-full max-w-4xl mb-12 mx-auto">
     {Array.from({ length: totalSteps }, (_, index) => {
       const step = index + 1;
       return (

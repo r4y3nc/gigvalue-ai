@@ -97,7 +97,7 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
       
       <ProgressBar currentStep={2} />
       
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-10 mb-16 mt-10">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-10 mb-16 mt-10 mx-auto">
         <div className="shrink-0 w-32 h-32 md:w-40 md:h-40">
           <img src={laptopImg} alt={skillsPageData.alt_laptop} className="w-full h-full object-contain" />
         </div>
@@ -111,7 +111,7 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
         </div>
       </div>
 
-      <div className="relative w-full mb-8">
+      <div className="relative w-full max-w-3xl mb-8 mx-auto">
         <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
         <input
           type="text"
@@ -123,7 +123,7 @@ const SkillsPage = ({ onNext, onBack, skills, setSkills, profile, setProfile }) 
         />
       </div>
 
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-3xl mx-auto">
         <h3 className="font-bold text-slate-800 text-lg mb-4">
           {skillsPageData.selected_label} ({skills.length})
         </h3>

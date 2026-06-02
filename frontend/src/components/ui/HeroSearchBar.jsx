@@ -10,6 +10,11 @@ const HeroSearchBar = ({
   roles = [],
 }) => {
   const [value, setValue] = useState(defaultValue);
+
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
+  
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
   const isLg = size === "lg";

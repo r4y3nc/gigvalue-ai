@@ -174,7 +174,7 @@ const HowItWorksAccordion = () => {
   );
 };
 
-const LandingPage = ({ onStart, errorMessage }) => {
+const LandingPage = ({ onStart, errorMessage, role }) => {
   const [searchVal, setSearchVal] = useState("");
   const [roles, setRoles] = useState([]);
 
@@ -186,7 +186,7 @@ const LandingPage = ({ onStart, errorMessage }) => {
           setRoles(response.data.roles);
         }
       } catch (err) {
-        console.warn("Gagal mengambil roles dari API, menggunakan data fallback lokal.", err);
+        console.warn("Gagal mengambil roles dari API.", err);
       }
     };
     fetchRolesData();
@@ -245,7 +245,7 @@ const LandingPage = ({ onStart, errorMessage }) => {
               placeholder={hero.search_placeholder}
               buttonLabel={hero.cta_button}
               size="lg"
-              defaultValue={hero.search_value}
+              defaultValue={role || hero.search_value} 
               onSubmit={onStart}
               roles={roles}
             />

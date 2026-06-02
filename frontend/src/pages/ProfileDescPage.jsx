@@ -15,7 +15,7 @@ const ProfileDescPage = ({ onNext, onBack, profile, setProfile, errorMessage }) 
     >
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-10 w-fit self-start font-medium transition-colors"
+        className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-10 w-fit self-start font-medium transition-colors cursor-pointer"
       >
         <ArrowLeft className="w-4 h-4" /> {profileDescPageData.back_label}
       </button>
@@ -49,11 +49,11 @@ const ProfileDescPage = ({ onNext, onBack, profile, setProfile, errorMessage }) 
         </label>
       </div>
 
-      <div className="flex justify-end mt-auto mb-12">
+      <div className="flex justify-end mt-10 mb-12">
         <button
           disabled={!canContinue}
           onClick={onNext}
-          className="disabled:opacity-40 disabled:cursor-not-allowed text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-lg"
+          className="disabled:opacity-40 disabled:cursor-not-allowed text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
           style={{ backgroundColor: "#83AA3E" }}
           onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = "#6a8f2f")}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#83AA3E")}

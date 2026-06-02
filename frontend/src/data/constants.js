@@ -258,7 +258,7 @@ export const experiencePageData = {
 export const skillsPageData = {
   back_label: "Kembali",
   title_1: "Tech Skills",
-  title_2: "yang kamu kuasai",
+  title_2: " yang kamu kuasai",
   subtitle: "Pilih minimal 1 skill. Makin banyak, makin akurat estimasinya.",
   search_placeholder: "Cari skill...",
   selected_label: "Dipilih",
