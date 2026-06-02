@@ -1,21 +1,8 @@
 const dlService = require('../services/dlService');
-const database = require('../services/databaseClient');
+const historyService = require('../services/historyService');
 const { formatSkillRecommendations } = require('../utils/skillFormatter');
-
-const KURS_USD_TO_IDR = 17000;
-
-const formatToIDR = (usdAmount) => {
-  const idr = Math.round((usdAmount * KURS_USD_TO_IDR) / 1000) * 1000;
-  return "Rp " + idr.toLocaleString('id-ID');
-};
-
-const convertTextToIDR = (text) => {
-  if (!text) return text;
-  return text.replace(/\$\d+(\.\d+)?/g, (match) => {
-    const usd = parseFloat(match.replace('$', ''));
-    return formatToIDR(usd);
-  });
-};
+const { KURS_USD_TO_IDR, convertTextToIDR } = require('../utils/currency');
+const { BadGatewayError } = require('../errors');
 
 const predict = async (req, res, next) => {
   try {
@@ -44,7 +31,9 @@ const predict = async (req, res, next) => {
     const numericRateIDR = nearestWholeUSD * KURS_USD_TO_IDR;
     const formattedRateIDR = "Rp " + numericRateIDR.toLocaleString('id-ID');
     
-    const formattedRateRange = convertTextToIDR(result.rate_range);
+    const formattedRateRange = result.rate_range
+      ? convertTextToIDR(result.rate_range)
+      : null;
 
     const formattedDescription = { ...result.rating_description };
     if (formattedDescription.detail) {
@@ -56,23 +45,19 @@ const predict = async (req, res, next) => {
 
     const finalizedSkillRecommendations = formatSkillRecommendations(result.skill_recommendations);
 
-    database
-      .from('prediction_history')
-      .insert({
-        role: category,
-        experience_level,
-        skills,
-        description,
-        country,
-        client_rating,
-        client_review_count,
-        predicted_rate: numericRateIDR,
-        rate_range: formattedRateRange,
-        confidence: result.confidence,
-        skill_recommendations: finalizedSkillRecommendations
-      })
-      .then()
-      .catch((err) => console.error('[Database Insert Error]', err.message));
+    historyService.savePredictionHistory({
+      category,
+      experience_level,
+      skills,
+      description,
+      country,
+      client_rating,
+      client_review_count,
+      numericRateIDR,
+      formattedRateRange,
+      confidence: result.confidence,
+      finalizedSkillRecommendations
+    });
 
     res.json({
       success: true,
@@ -89,7 +74,7 @@ const predict = async (req, res, next) => {
     });
   } catch (error) {
     if (error.code === 'ECONNREFUSED') {
-      error.message = 'DL service is not available. Please try again later.';
+      return next(new BadGatewayError('DL service is not available. Please try again later.'));
     }
     next(error);
   }

@@ -1,10 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 
-const corsMiddleware = require('./src/middlewares/corsMiddleware');
-const errorHandler = require('./src/middlewares/errorHandler');
-const { globalLimiter } = require('./src/middlewares/rateLimiter');
-const routes = require('./src/routes/index');
+const corsMiddleware = require('./middleware/corsMiddleware');
+const errorHandler = require('./middleware/errorHandler');
+const { globalLimiter } = require('./middleware/rateLimiter');
+const routes = require('./routes/index');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
