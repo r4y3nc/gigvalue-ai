@@ -55,9 +55,14 @@ const ExtraInfoPage = ({ onNext, onBack, profile, setProfile }) => (
             onChange={(event) => {
               const onlyNumbers = event.target.value.replace(/[^0-9]/g, "");
 
+              let finalValue = onlyNumbers === "" ? 0 : Number(onlyNumbers);
+              if (finalValue > 9999) {
+                finalValue = 9999;
+              }
+
               setProfile((prev) => ({
                 ...prev,
-                reviewCount: onlyNumbers === "" ? 0 : Number(onlyNumbers),
+                reviewCount: finalValue,
               }));
             }}
             placeholder="0"

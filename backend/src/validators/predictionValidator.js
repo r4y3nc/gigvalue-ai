@@ -33,9 +33,10 @@ const predictionSchema = Joi.object({
     'number.min': 'Client rating must be between 0 and 5',
     'number.max': 'Client rating must be between 0 and 5'
   }),
-  client_review_count: Joi.number().integer().min(0).optional().messages({
+  client_review_count: Joi.number().integer().min(0).max(9999).optional().messages({
     'number.base': 'Client review count must be a positive integer',
     'number.min': 'Client review count must be a positive integer',
+    'number.max': 'Client review count must be between 0 and 9999',
     'number.integer': 'Client review count must be a positive integer'
   })
 }).options({ stripUnknown: true });

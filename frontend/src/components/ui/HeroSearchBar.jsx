@@ -10,14 +10,15 @@ const HeroSearchBar = ({
   roles = [],
 }) => {
   const [value, setValue] = useState(defaultValue);
+  const [isOpen, setIsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  
+  const containerRef = useRef(null);
+  const isLg = size === "lg";
 
   useEffect(() => {
     setValue(defaultValue);
   }, [defaultValue]);
-  
-  const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef(null);
-  const isLg = size === "lg";
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -31,17 +32,33 @@ const HeroSearchBar = ({
 
   const handleInputChange = (e) => {
     setValue(e.target.value);
+    setErrorMessage("");
     setIsOpen(true);
-  };
-
-  const handleSubmit = () => {
-    if (typeof onSubmit !== "function") return;
-    onSubmit(value.trim());
-    setIsOpen(false);
   };
 
   const handleSelectOption = (roleName) => {
     setValue(roleName);
+    setErrorMessage("");
+    setIsOpen(false);
+  };
+
+  const handleSubmit = () => {
+    if (typeof onSubmit !== "function") return;
+    
+    const trimmedValue = value.trim();
+
+    const validRole = roles.find(
+      (role) => role.toLowerCase() === trimmedValue.toLowerCase()
+    );
+
+    if (!validRole) {
+      setErrorMessage("Silakan pilih role yang tersedia pada daftar di bawah.");
+      setIsOpen(true);
+      return;
+    }
+
+    setErrorMessage("");
+    onSubmit(validRole);
     setIsOpen(false);
   };
 
@@ -51,43 +68,27 @@ const HeroSearchBar = ({
         role.toLowerCase().includes(value.toLowerCase())
       ).slice(0, 5);
 
-  const hasExactMatch = roles.some(
-    (role) => role.toLowerCase() === value.trim().toLowerCase()
-  );
-
   return (
     <div ref={containerRef} className="relative w-full max-w-2xl mx-auto">
-      <div className="relative w-full">
-        <Search
-          className={`absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 ${isLg ? "w-6 h-6" : "w-5 h-5"}`}
-        />
+      <div
+        className={`flex items-center bg-white border rounded-full shadow-sm transition-all px-4 py-2 ${
+          errorMessage ? "border-red-500 ring-4 ring-red-50" : "border-slate-200 focus-within:border-slate-400"
+        }`}
+      >
+        <Search className="text-slate-400 w-5 h-5 ml-2 shrink-0" />
         <input
           type="text"
-          placeholder={placeholder}
           value={value}
+          onChange={handleInputChange}
           onFocus={() => setIsOpen(true)}
-          onChange={(event) => {
-            setValue(event.target.value);
-            setIsOpen(true);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              handleSubmit();
-            }
-          }}
-          className={`w-full bg-white shadow-xs text-slate-800 placeholder:text-slate-400 rounded-full border-2 border-slate-200 focus:outline-none focus:ring-4 transition-all ${
-            isLg
-              ? "pl-16 pr-40 py-5 text-lg"
-              : "pl-14 pr-40 py-5 text-base"
-          }`}
-          style={{ "--tw-ring-color": "#83AA3E20" }}
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          placeholder={placeholder}
+          className="w-full pl-3 pr-4 py-2 text-slate-700 bg-transparent placeholder:text-slate-400 font-medium focus:outline-none text-base md:text-lg"
         />
         <button
+          type="button"
           onClick={handleSubmit}
-          className={`absolute right-2.5 top-1/2 -translate-y-1/2 text-white font-bold rounded-full transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-md cursor-pointer ${
-            isLg ? "px-6 py-3.5 text-base" : "px-7 py-3.5 text-sm"
-          }`}
+          className="text-white px-6 py-3 rounded-full font-bold text-base transition-all hover:scale-105 active:scale-95 shadow-md flex items-center gap-2 cursor-pointer shrink-0"
           style={{ backgroundColor: "#83AA3E" }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#6a8f2f")}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#83AA3E")}
@@ -97,11 +98,15 @@ const HeroSearchBar = ({
         </button>
       </div>
 
-      {isOpen && (value.trim() !== "" || filteredRoles.length > 0) && (
+      {errorMessage && (
+        <p className="text-red-500 text-sm font-semibold mt-2 pl-6 text-left animate-pulse">
+          {errorMessage}
+        </p>
+      )}
+
+      {isOpen && filteredRoles.length > 0 && (
         <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-md z-[9999] overflow-hidden">
-          
           <div className="h-auto max-h-[196px] overflow-y-auto py-1 text-left">
-            
             {filteredRoles.map((role) => (
               <button
                 key={role}
@@ -112,17 +117,6 @@ const HeroSearchBar = ({
                 {role}
               </button>
             ))}
-
-            {value.trim() !== "" && !hasExactMatch && (
-              <button
-                type="button"
-                onClick={() => handleSelectOption(value.trim())}
-                className="w-full px-6 py-3 hover:bg-slate-50 text-base font-bold transition-colors text-left block border-t border-slate-100 cursor-pointer"
-                style={{ color: "#83AA3E" }}
-              >
-                {value.trim()}
-              </button>
-            )}
           </div>
         </div>
       )}
