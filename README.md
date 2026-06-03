@@ -67,7 +67,6 @@ gigvalue-ai/
     ├── package-lock.json
     ├── package.json
     └── vite.config.js
-
 ```
 
 ---
@@ -97,14 +96,12 @@ PGUSER=postgres
 PGDATABASE=gigvalueai_db
 PGPASSWORD=your_password
 PGPORT=5432
-
 ```
 
 ### Frontend (`frontend/.env`)
 
 ```env
 VITE_API_URL=http://localhost:5000
-
 ```
 
 ---
@@ -128,7 +125,6 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 uvicorn app.main:app --reload
-
 ```
 
 *Catatan Model AI:* Berkas model `.keras` dan `.pkl` wajib berada di dalam folder `app/models/`. Jika berkas tersebut belum ada karena ukurannya yang besar, Anda dapat mengunduhnya melalui [tautan Google Drive ini](https://drive.google.com/drive/folders/1IhGScMPfYZah_AyuDGGqy4Mude03cxpi).
@@ -152,7 +148,6 @@ npm run seed
 
 # Jalankan backend dalam mode development
 npm run dev
-
 ```
 
 ### 3. Setup Frontend (Vite + React)
@@ -168,7 +163,6 @@ cp .env.example .env
 
 # Jalankan aplikasi web
 npm run dev
-
 ```
 
 ---
@@ -196,6 +190,8 @@ Deployment Web di Vercel (multiservice): https://gigvalue-ai.vercel.app/
 
 Dashboard Streamlit Data Science: https://dashboard-capstone-gigvalue-hpdns9tgyescnifpcqgnbg.streamlit.app/
 
+Unduh model Deep Learning: https://drive.google.com/drive/folders/1IhGScMPfYZah_AyuDGGqy4Mude03cxpi
+
 ---
 
 ## Anggota Capstone Project - CC26-PSU219
@@ -205,4 +201,3 @@ CDCC277D6Y1864 - Sandi Gunawan - Data Scientist
 CACC313D6Y0886 - Aditya Ihsan Maulana - AI Engineer
 CFCC313D6Y2807 - Icep Septian Fajar - Full-Stack Web Developer
 CFCC012D6Y0100 - Muhammad Zevaldo T. - Full-Stack Web Developer
-
