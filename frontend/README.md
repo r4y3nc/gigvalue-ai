@@ -1,16 +1,63 @@
-# React + Vite
+# GigValue AI - Frontend (Vite + React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Antarmuka web interaktif berbasis React dan Vite yang digunakan oleh pengguna untuk melakukan estimasi tarif per jam dan melihat visualisasi analisis data pasar.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Struktur Proyek
+```text
+frontend/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── data/
+│   ├── hooks/
+│   ├── pages/
+│   ├── services/
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── .env.example
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+└── vite.config.js
+```
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Konfigurasi Environment Variables
 
-## Expanding the ESLint configuration
+Salin berkas `.env.example` menjadi `.env` di dalam folder frontend/:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cp .env.example .env
+```
+
+Sesuaikan isi konfigurasi environment variables berikut:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+---
+
+## Panduan Instalasi & Pengoperasian
+
+Pastikan perangkat Anda sudah terpasang Node.js v24.14.1.
+
+Masuk ke direktori frontend dan pasang seluruh dependensi project:
+
+```bash
+cd frontend
+npm install
+
+# Salin berkas env
+cp .env.example .env
+
+# Jalankan aplikasi web
+npm run dev
+```
