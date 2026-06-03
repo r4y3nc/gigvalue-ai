@@ -276,13 +276,7 @@ const LandingPage = ({ onStart, errorMessage, role }) => {
         </div>
       </RevealSection>
 
-      {/* ── HOW IT WORKS ── */}
-      <RevealSection className="w-full">
-        <div id="cara-kerja" className="w-full">
-          <HowItWorksAccordion />
-        </div>
-      </RevealSection>
-
+   
       {/* ── MARKET INSIGHTS ── */}
       <RevealSection className="w-full">
         <div id="market" className="w-full">
@@ -326,13 +320,7 @@ const LandingPage = ({ onStart, errorMessage, role }) => {
                     </div>
                   </li>
 
-                  <li className="flex items-center gap-4">
-                    <img src={bagjobImg} alt="Bag job" className="w-12 h-12 object-contain" />
-                    <div>
-                      <div className="font-semibold">Lowongan terkait sebagai referensi</div>
-                      <div className="text-sm text-slate-500">Cek pekerjaan serupa di Upwork untuk validasi tarif dan arah karier.</div>
-                    </div>
-                  </li>
+       
                 </ul>
               </div>
             </div>
