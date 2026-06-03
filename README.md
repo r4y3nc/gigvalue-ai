@@ -185,8 +185,8 @@ Berisikan berkas Jupyter Notebook (`gigvalue_ai.ipynb`) yang digunakan untuk eks
 Deployment Web di Vercel (multiservice): https://gigvalue-ai.vercel.app/
 
 `dlservice/` di Huggingface:
-    - Repositori: https://huggingface.co/spaces/r4y3nc/gigvalue-ai-dlservice/tree/main
-    - Deployment `dlservice/`: https://r4y3nc-gigvalue-ai-dlservice.hf.space
+- Repositori: https://huggingface.co/spaces/r4y3nc/gigvalue-ai-dlservice/tree/main
+- Deployment `dlservice/`: https://r4y3nc-gigvalue-ai-dlservice.hf.space
 
 Dashboard Streamlit Data Science: https://dashboard-capstone-gigvalue-hpdns9tgyescnifpcqgnbg.streamlit.app/
 
