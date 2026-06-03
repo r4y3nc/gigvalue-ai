@@ -85,4 +85,3 @@ npm run seed
 npm run dev
 ```
 
-*Catatan Model AI:* Berkas model `.keras` dan `.pkl` wajib berada di dalam folder `app/models/`. Jika berkas tersebut belum ada karena ukurannya yang besar, Anda dapat mengunduhnya melalui [tautan Google Drive ini](https://drive.google.com/drive/folders/1IhGScMPfYZah_AyuDGGqy4Mude03cxpi).
