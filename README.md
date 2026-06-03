@@ -182,3 +182,27 @@ Folder `dashboard-streamlit/` berisi berkas utama `dashboard.py`, dataset hasil 
 
 ### `artificial-intelligence/`
 Berisikan berkas Jupyter Notebook (`gigvalue_ai.ipynb`) yang digunakan untuk eksperimen awal, arsitektur, dan pelatihan model Deep Learning sebelum diintegrasikan ke FastAPI.
+
+
+---
+
+## Tautan Terkait
+
+Deployment Web di Vercel (multiservice): https://gigvalue-ai.vercel.app/
+
+`dlservice/` di Huggingface:
+    - Repositori: https://huggingface.co/spaces/r4y3nc/gigvalue-ai-dlservice/tree/main
+    - Deployment `dlservice/`: https://r4y3nc-gigvalue-ai-dlservice.hf.space
+
+Dashboard Streamlit Data Science: https://dashboard-capstone-gigvalue-hpdns9tgyescnifpcqgnbg.streamlit.app/
+
+---
+
+## Anggota Capstone Project - CC26-PSU219
+
+CDCC012D6X0148 - Daffa Apsari Aprila Nala M. - Data Scientist
+CDCC277D6Y1864 - Sandi Gunawan - Data Scientist
+CACC313D6Y0886 - Aditya Ihsan Maulana - AI Engineer
+CFCC313D6Y2807 - Icep Septian Fajar - Full-Stack Web Developer
+CFCC012D6Y0100 - Muhammad Zevaldo T. - Full-Stack Web Developer
+
