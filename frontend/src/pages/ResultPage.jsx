@@ -1,4 +1,4 @@
-import { CheckCircle2, ArrowRight, Share2, Bookmark } from "lucide-react";
+import { CheckCircle2, ArrowRight, Share2, Bookmark, RefreshCw, Info } from "lucide-react";
 import { motion } from "motion/react";
 import { resultData } from "../data/constants";
 
@@ -15,6 +15,94 @@ const getConfidenceTone = (percentage) => {
   if (score >= 50) return { backgroundColor: "#ffedd5", color: "#c2410c", label: "Kurang Akurat" };
   return { backgroundColor: "#fee2e2", color: "#b91c1c", label: "Butuh Data Tambahan" };
 };
+
+const formatDate = (iso) =>
+  new Date(iso).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+const getRateInfo = (exchangeRate) => {
+  if (!exchangeRate) return null;
+
+  const { formatted_rate, date, is_fallback } = exchangeRate;
+  const tanggal = date ? formatDate(date) : null;
+
+  if (!is_fallback) {
+    return {
+      isFallback: false,
+      rate: formatted_rate,
+      caption: "Data Bank Sentral Eropa",
+      status: tanggal ? `Kurs referensi harian · ${tanggal}` : "Kurs referensi harian",
+      meta: "Sumber: Frankfurter",
+    };
+  }
+
+  return {
+    isFallback: true,
+    rate: formatted_rate,
+    caption: "Kurs cadangan",
+    status: "Kurs terkini sedang tidak tersedia",
+    meta: tanggal ? `Memakai kurs terakhir: ${tanggal}` : "Memakai kurs perkiraan",
+  };
+};
+
+const RateInfoBox = ({ info }) => {
+  if (!info) return null;
+  const { isFallback } = info;
+  const StatusIcon = isFallback ? Info : RefreshCw;
+
+  return (
+    <div
+      className={`mt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 rounded-xl border px-4 py-3 ${
+        isFallback ? "bg-amber-50 border-amber-200" : "bg-slate-50 border-slate-200"
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <span
+          className={`rounded-md px-2 py-1 text-base font-black uppercase tracking-wider ${
+            isFallback ? "bg-amber-100 text-amber-800" : ""
+          }`}
+          style={isFallback ? undefined : { backgroundColor: BRAND_LIGHT, color: BRAND }}
+        >
+          USD/IDR
+        </span>
+        <div className="leading-snug">
+          <p className={`text-base font-extrabold ${isFallback ? "text-amber-900" : "text-slate-800"}`}>
+            {info.rate}
+          </p>
+          <p className={`mt-1.5 text-xs font-medium ${isFallback ? "text-amber-800" : "text-slate-500"}`}>
+            {info.caption}
+          </p>
+        </div>
+      </div>
+
+      <div className="leading-snug sm:text-right">
+        <p className={`text-xs font-semibold ${isFallback ? "text-amber-900" : "text-slate-600"}`}>
+          {info.status}
+        </p>
+        <p
+          className={`flex items-center gap-1 text-xs font-medium sm:justify-end mt-3 ${
+            isFallback ? "text-amber-800" : "text-slate-500"
+          }`}
+        >
+          {info.meta}
+          <StatusIcon className="w-3 h-3 shrink-0" aria-hidden="true" />
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const OriginalValue = ({ value }) =>
+  value ? (
+    <span className="my-2 inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2 py-1 text-sm">
+      <span className="font-bold text-slate-800">{value}</span>
+      <span className="font-medium text-slate-500">{resultData.rate_recommendation.price_unit}</span>
+    </span>
+  ) : null;
 
 /* ─── Main page ─────────────────────────────────────────────── */
 const ResultPage = ({ result, onReset, profile }) => {
@@ -34,6 +122,9 @@ const ResultPage = ({ result, onReset, profile }) => {
   const insightAi = payload.rating_description || null;    
   const jobsList = payload.job_suggestions || [];          
   const skillUpList = payload.skill_recommendations || [];
+  const exchangeRate = payload.exchange_rate || null;
+  const predictedRateOriginal = payload.predicted_rate_original || null;
+  const rateRangeOriginal = payload.rate_range_original || null;
 
   return (
     <>
@@ -70,9 +161,12 @@ const ResultPage = ({ result, onReset, profile }) => {
 
         <RateCard 
           predictedRate={predictedRate} 
-          rateRange={rateRange} 
+          rateRange={rateRange}
+          exchangeRate={exchangeRate}
           confidence={confidenceScore} 
-          insight={insightAi} 
+          insight={insightAi}
+          predictedRateOriginal={predictedRateOriginal}
+          rateRangeOriginal={rateRangeOriginal}
         />
         
         <SkillUpCard skillsTags={skillUpList} />
@@ -99,9 +193,9 @@ const ResultPage = ({ result, onReset, profile }) => {
 };
 
 /* ─── Rate card ─────────────────────────────────────────────── */
-const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
+const RateCard = ({ predictedRate, rateRange, exchangeRate, predictedRateOriginal, rateRangeOriginal, confidence, insight }) => {
   const confidenceTone = getConfidenceTone(confidence);
-  
+  const rateInfo = getRateInfo(exchangeRate);
   const cleanInsightDetail = insight?.detail || "";
 
   return (
@@ -128,6 +222,7 @@ const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
                   {resultData.rate_recommendation.price_unit}
                 </span>
               </div>
+              <OriginalValue value={predictedRateOriginal} />
             </div>
 
             <div>
@@ -142,6 +237,7 @@ const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
                   {resultData.rate_recommendation.price_unit}
                 </span>
               </div>
+              <OriginalValue value={rateRangeOriginal} />
             </div>
           </div>
         </div>
@@ -190,6 +286,7 @@ const RateCard = ({ predictedRate, rateRange, confidence, insight }) => {
             <span>{resultData.rate_recommendation.based_on_prefix} analisis pola tarif freelancer Upwork </span>
           </div>
         </div>
+        <RateInfoBox info={rateInfo} />
       </div>
     </div>
   );
