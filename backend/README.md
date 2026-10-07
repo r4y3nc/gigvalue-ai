@@ -44,7 +44,7 @@ DLSERVICE_URL=http://localhost:8000
 FRONTEND_URL=http://localhost:5173
 
 # Konfigurasi nilai tukar USD ke IDR
-KURS_USD_TO_IDR=17000
+KURS_USD_TO_IDR=17900
 
 # DATABASE MODE SWITCH ('supabase' untuk Cloud, atau 'local' untuk PostgreSQL Lokal)
 DATABASE_MODE=local
