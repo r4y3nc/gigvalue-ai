@@ -1,7 +1,8 @@
 const dlService = require('../services/dlService');
 const historyService = require('../services/historyService');
+const { getExchangeRate } = require('../services/exchangeRateService');
 const { formatSkillRecommendations } = require('../utils/skillFormatter');
-const { KURS_USD_TO_IDR, convertTextToIDR } = require('../utils/currency');
+const { calculateIDR, formatToIDR, convertTextToIDR } = require('../utils/currency');
 const { BadGatewayError } = require('../errors');
 
 const predict = async (req, res, next) => {
@@ -16,31 +17,36 @@ const predict = async (req, res, next) => {
       client_review_count,
     } = req.body;
 
-    const result = await dlService.getPrediction({
-      category,
-      experience_level,
-      skills,
-      description,
-      country,
-      client_rating,
-      client_review_count,
-    });
+    const [result, exchangeRateInfo] = await Promise.all([
+      dlService.getPrediction({
+        category,
+        experience_level,
+        skills,
+        description,
+        country,
+        client_rating,
+        client_review_count,
+      }),
+      getExchangeRate(),
+    ]);
 
-    const nearestWholeUSD = Math.round(result.predicted_rate_usd); 
-
-    const numericRateIDR = nearestWholeUSD * KURS_USD_TO_IDR;
-    const formattedRateIDR = "Rp " + numericRateIDR.toLocaleString('id-ID');
+    const currentRate = exchangeRateInfo.rate;
     
+    const predictedUSD = Math.round(result.predicted_rate_usd);
+
+    const numericRateIDR = calculateIDR(result.predicted_rate_usd, currentRate);
+    const formattedRateIDR = formatToIDR(result.predicted_rate_usd, currentRate);
+
     const formattedRateRange = result.rate_range
-      ? convertTextToIDR(result.rate_range)
+      ? convertTextToIDR(result.rate_range, currentRate)
       : null;
 
     const formattedDescription = { ...result.rating_description };
     if (formattedDescription.detail) {
-      formattedDescription.detail = convertTextToIDR(formattedDescription.detail);
+      formattedDescription.detail = convertTextToIDR(formattedDescription.detail, currentRate);
     }
     if (formattedDescription.headline) {
-      formattedDescription.headline = convertTextToIDR(formattedDescription.headline);
+      formattedDescription.headline = convertTextToIDR(formattedDescription.headline, currentRate);
     }
 
     const finalizedSkillRecommendations = formatSkillRecommendations(result.skill_recommendations);
@@ -70,6 +76,10 @@ const predict = async (req, res, next) => {
         job_suggestions: result.job_suggestions,
         detected_role: result.detected_role,
         currency: 'IDR',
+        original_currency: 'USD',
+        predicted_rate_original: `$${predictedUSD}`,
+        rate_range_original: result.rate_range || null,
+        exchange_rate: exchangeRateInfo,
       },
     });
   } catch (error) {

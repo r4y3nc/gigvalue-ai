@@ -1,20 +1,23 @@
-const KURS_USD_TO_IDR = Number(process.env.KURS_USD_TO_IDR) || 17000;
+const calculateIDR = (usdAmount, rate) => {
+  const nearestUSD = Math.round(usdAmount);
+  return Math.round((nearestUSD * rate) / 1000) * 1000;
+};
 
-const formatToIDR = (usdAmount) => {
-  const idr = Math.round((usdAmount * KURS_USD_TO_IDR) / 1000) * 1000;
+const formatToIDR = (usdAmount, rate) => {
+  const idr = calculateIDR(usdAmount, rate);
   return "Rp " + idr.toLocaleString('id-ID');
 };
 
-const convertTextToIDR = (text) => {
+const convertTextToIDR = (text, rate) => {
   if (!text) return text;
   return text.replace(/\$\d+(\.\d+)?/g, (match) => {
     const usd = parseFloat(match.replace('$', ''));
-    return formatToIDR(usd);
+    return formatToIDR(usd, rate);
   });
 };
 
 module.exports = {
-  KURS_USD_TO_IDR,
+  calculateIDR,
   formatToIDR,
   convertTextToIDR,
 };
